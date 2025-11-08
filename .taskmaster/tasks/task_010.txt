@@ -1,0 +1,12 @@
+# Task ID: 10
+# Title: Finalize Performance Optimization and Accessibility Audit
+# Status: pending
+# Dependencies: 1, 2, 3, 4, 5, 6, 7, 8, 9
+# Priority: medium
+# Description: Conduct a comprehensive review of the entire application to meet the performance (<2s load, >95 Lighthouse) and accessibility (WCAG 2.1 AA) requirements before launch.
+# Details:
+1. **Performance**: Run Lighthouse audits and address all reported issues. Ensure all images are optimized using `next/image` (which defaults to WebP). Analyze the bundle size with `@next/bundle-analyzer` and apply dynamic imports (`next/dynamic`) where needed. Set up caching policies for static assets. 
+2. **Accessibility (A11y)**: Use automated tools like `axe-core` and manual testing for a full WCAG 2.1 AA audit. Ensure all interactive elements are keyboard-navigable. Add appropriate ARIA labels and roles. Check color contrast ratios. Implement a `prefers-reduced-motion` check to disable non-essential animations for users who request it.
+
+# Test Strategy:
+The test is the audit itself. The task is complete when Lighthouse scores for Performance, Accessibility, and SEO are all >90 (ideally >95 for Performance). Manually tab through the entire site to ensure all controls are focusable and usable. Use a screen reader (e.g., VoiceOver, NVDA) to navigate key user flows.

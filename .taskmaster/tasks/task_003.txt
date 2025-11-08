@@ -1,0 +1,13 @@
+# Task ID: 3
+# Title: Implement Sticky Header and Animated Footer
+# Status: pending
+# Dependencies: 2
+# Priority: high
+# Description: Build the main layout components, including a sticky navigation header with smooth-scrolling links and an animated footer with social media icons.
+# Details:
+1. **Header**: Create `/apps/web/src/components/layout/Header.tsx`. Make it sticky to the top. Implement a smooth scroll to section IDs. Use `useInView` or a scroll listener to highlight the active section link. For mobile, create a hamburger menu that triggers a slide-out navigation pane using Framer Motion's `AnimatePresence`. 
+2. **Footer**: Create `/apps/web/src/components/layout/Footer.tsx`. Add animated links (underline effect on hover) and social media icons from `lucide-react` that scale or glow on hover. 
+3. **Layout Integration**: Update the main layout file (`/apps/web/src/app/layout.tsx`) to include the new Header and Footer components.
+
+# Test Strategy:
+Verify the header remains fixed at the top on scroll. Test smooth scrolling to all sections on the homepage. Confirm the active link highlighting works correctly. Test the mobile hamburger menu animation and functionality on various device widths. Check footer link animations.

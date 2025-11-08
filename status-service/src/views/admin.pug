@@ -1,0 +1,332 @@
+doctype html
+html(lang="en")
+head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title TB Group - Admin Dashboard
+    style
+        | body {
+        |   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        |   max-width: 1200px;
+        |   margin: 0 auto;
+        |   padding: 20px;
+        |   background-color: #f8f9fa;
+        | }
+        | .header {
+        |   background: white;
+        |   padding: 20px;
+        |   border-radius: 8px;
+        |   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        |   margin-bottom: 30px;
+        | }
+        | .form-section {
+        |   background: white;
+        |   padding: 30px;
+        |   border-radius: 8px;
+        |   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        |   margin-bottom: 30px;
+        | }
+        | .form-group {
+        |   margin-bottom: 20px;
+        | }
+        | label {
+        |   display: block;
+        |   margin-bottom: 5px;
+        |   font-weight: 600;
+        |   color: #333;
+        | }
+        | input[type="text"], textarea, select {
+        |   width: 100%;
+        |   padding: 12px;
+        |   border: 1px solid #ddd;
+        |   border-radius: 4px;
+        |   font-size: 14px;
+        |   box-sizing: border-box;
+        | }
+        | textarea {
+        |   height: 100px;
+        |   resize: vertical;
+        | }
+        | .btn {
+        |   background: #007bff;
+        |   color: white;
+        |   padding: 12px 24px;
+        |   border: none;
+        |   border-radius: 4px;
+        |   cursor: pointer;
+        |   font-size: 14px;
+        |   font-weight: 600;
+        | }
+        | .btn:hover {
+        |   background: #0056b3;
+        | }
+        | .btn-secondary {
+        |   background: #6c757d;
+        | }
+        | .btn-secondary:hover {
+        |   background: #545b62;
+        | }
+        | .incidents-list {
+        |   background: white;
+        |   border-radius: 8px;
+        |   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        |   overflow: hidden;
+        | }
+        | .incident-item {
+        |   padding: 20px;
+        |   border-bottom: 1px solid #eee;
+        | }
+        | .incident-item:last-child {
+        |   border-bottom: none;
+        | }
+        | .incident-title {
+        |   font-size: 18px;
+        |   font-weight: 600;
+        |   margin: 0 0 10px 0;
+        | }
+        | .incident-meta {
+        |   display: flex;
+        |   gap: 15px;
+        |   font-size: 14px;
+        |   color: #666;
+        |   margin-bottom: 10px;
+        | }
+        | .badge {
+        |   display: inline-block;
+        |   padding: 4px 8px;
+        |   border-radius: 4px;
+        |   font-size: 12px;
+        |   font-weight: 500;
+        | }
+        | .severity-low { background-color: #e3f2fd; color: #1976d2; }
+        | .severity-medium { background-color: #fff3e0; color: #f57c00; }
+        | .severity-high { background-color: #ffebee; color: #d32f2f; }
+        | .severity-critical { background-color: #f3e5f5; color: #7b1fa2; }
+        | .status-investigating { background-color: #fff3e0; color: #f57c00; }
+        | .status-identified { background-color: #e8f5e8; color: #2e7d32; }
+        | .status-monitoring { background-color: #e3f2fd; color: #1976d2; }
+        | .status-resolved { background-color: #f1f8e9; color: #558b2f; }
+        | .error {
+        |   background: #f8d7da;
+        |   color: #721c24;
+        |   padding: 12px;
+        |   border-radius: 4px;
+        |   margin-bottom: 20px;
+        | }
+        | .success {
+        |   background: #d4edda;
+        |   color: #155724;
+        |   padding: 12px;
+        |   border-radius: 4px;
+        |   margin-bottom: 20px;
+        | }
+        | .no-incidents {
+        |   text-align: center;
+        |   padding: 40px;
+        |   color: #666;
+        | }
+
+body
+    .header
+        h1 🔧 Admin Dashboard
+        p Manage incidents and monitor system status
+
+    .form-section
+        h2 ➕ Create New Incident
+        form#incident-form
+            .form-group
+                label(for="title") Title *
+                input(type="text", id="title", name="title", required, placeholder="Brief description of the incident")
+
+            .form-group
+                label(for="description") Description *
+                textarea(id="description", name="description", required, placeholder="Detailed description of what happened")
+
+            .form-group
+                label(for="severity") Severity *
+                select(id="severity", name="severity", required)
+                    option(value="") Select severity
+                    option(value="low") Low
+                    option(value="medium") Medium
+                    option(value="high") High
+                    option(value="critical") Critical
+
+            .form-group
+                label(for="status") Status
+                select(id="status", name="status")
+                    option(value="investigating") Investigating
+                    option(value="identified") Identified
+                    option(value="monitoring") Monitoring
+                    option(value="resolved") Resolved
+
+            button(type="submit", class="btn") Create Incident
+
+    .incidents-list
+        .header
+            h2 📋 Current Incidents
+            button(class="btn btn-secondary", onclick="refreshIncidents()") Refresh
+
+        #incidents-container
+            .no-incidents Loading incidents...
+
+script.
+    // Load incidents on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadIncidents();
+
+        // Handle form submission
+        document.getElementById('incident-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            createIncident();
+        });
+    });
+
+    async function loadIncidents() {
+        try {
+            const response = await fetch('/admin/incidents');
+            const data = await response.json();
+
+            if (data.success) {
+                displayIncidents(data.data.incidents);
+            } else {
+                showError('Failed to load incidents: ' + data.error.message);
+            }
+        } catch (error) {
+            showError('Failed to load incidents: ' + error.message);
+        }
+    }
+
+    function displayIncidents(incidents) {
+        const container = document.getElementById('incidents-container');
+
+        if (incidents.length === 0) {
+            container.innerHTML = '<div class="no-incidents">No incidents found. Create your first incident above.</div>';
+            return;
+        }
+
+        container.innerHTML = incidents.map(incident => `
+            <div class="incident-item">
+                <h3 class="incident-title">${escapeHtml(incident.title)}</h3>
+                <div class="incident-meta">
+                    <span class="badge severity-${incident.severity}">${incident.severity}</span>
+                    <span class="badge status-${incident.status}">${formatStatus(incident.status)}</span>
+                    <span>📅 ${formatDate(incident.created_at)}</span>
+                    ${incident.resolved_at ? `<span>✅ Resolved: ${formatDate(incident.resolved_at)}</span>` : ''}
+                </div>
+                <p>${escapeHtml(incident.description)}</p>
+                <div style="margin-top: 10px;">
+                    <button class="btn btn-secondary" onclick="updateStatus(${incident.id}, 'identified')">Mark Identified</button>
+                    <button class="btn btn-secondary" onclick="updateStatus(${incident.id}, 'monitoring')">Mark Monitoring</button>
+                    <button class="btn" onclick="updateStatus(${incident.id}, 'resolved')">Mark Resolved</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    async function createIncident() {
+        const form = document.getElementById('incident-form');
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('/admin/incidents', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                showSuccess('Incident created successfully!');
+                form.reset();
+                loadIncidents(); // Refresh the list
+            } else {
+                showError('Failed to create incident: ' + result.error.message);
+            }
+        } catch (error) {
+            showError('Failed to create incident: ' + error.message);
+        }
+    }
+
+    async function updateStatus(incidentId, status) {
+        try {
+            const response = await fetch(`/admin/incidents/${incidentId}/status`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status }),
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                showSuccess('Status updated successfully!');
+                loadIncidents(); // Refresh the list
+            } else {
+                showError('Failed to update status: ' + result.error.message);
+            }
+        } catch (error) {
+            showError('Failed to update status: ' + error.message);
+        }
+    }
+
+    function refreshIncidents() {
+        loadIncidents();
+        showSuccess('Incidents refreshed!');
+    }
+
+    function showError(message) {
+        showMessage(message, 'error');
+    }
+
+    function showSuccess(message) {
+        showMessage(message, 'success');
+    }
+
+    function showMessage(message, type) {
+        // Remove existing messages
+        const existingMessages = document.querySelectorAll('.error, .success');
+        existingMessages.forEach(msg => msg.remove());
+
+        // Add new message
+        const messageDiv = document.createElement('div');
+        messageDiv.className = type;
+        messageDiv.textContent = message;
+
+        const formSection = document.querySelector('.form-section');
+        formSection.insertBefore(messageDiv, formSection.firstChild);
+
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            messageDiv.remove();
+        }, 5000);
+    }
+
+    function escapeHtml(text) {
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    function formatStatus(status) {
+        return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+    }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }

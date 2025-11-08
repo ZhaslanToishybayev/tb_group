@@ -1,0 +1,442 @@
+# UX/UI Redesign for TB Group Corporate Website
+
+## Product Overview
+Transform the TB Group corporate website from a standard business site into a visually stunning, highly interactive experience using modern design trends (2025). The goal is to increase user engagement by 40% and conversion rate by 25% through exceptional UX/UI.
+
+## Current State Analysis
+**Strengths:**
+- Next.js 14 + TypeScript architecture
+- Dark theme (slate-950)
+- Framer Motion animations
+- Responsive design
+- Docker containerization
+
+**Pain Points:**
+- Static, non-interactive components
+- Limited visual hierarchy
+- No micro-interactions
+- Outdated typography
+- Weak CTA visibility
+- Missing iconography
+- No particle effects or 3D elements
+
+## Target Users
+1. **Business Owners** - Seeking cloud solutions (45-60 years)
+2. **IT Managers** - Evaluating technology partners (30-50 years)
+3. **Operations Managers** - Looking for process automation (25-45 years)
+
+## User Experience Goals
+1. **First Impression** - Wow factor within 3 seconds
+2. **Navigation** - Intuitive and smooth
+3. **Content Consumption** - Engaging and scannable
+4. **Conversion** - Clear path to contact/quote
+5. **Performance** - <2s load time
+
+## Design Requirements
+
+### Visual Design System
+- **Color Palette:**
+  - Primary: Blue gradient (#3b82f6 → #2563eb)
+  - Secondary: Purple accents (#8b5cf6)
+  - Neon accents: Cyan (#00f5ff), Magenta (#ff00ff), Lime (#ccff00)
+  - Neutral: Slate variants (900-950)
+  - Success: Emerald (#10b981)
+  - Warning: Amber (#f59e0b)
+
+- **Typography:**
+  - Primary: Inter (weights: 400, 500, 600, 700, 800)
+  - Monospace: JetBrains Mono (for code/data)
+  - Scale: 12px, 14px, 16px, 18px, 24px, 32px, 48px, 64px
+
+- **Spacing:**
+  - Scale: 4px, 8px, 12px, 16px, 24px, 32px, 48px, 64px, 96px
+
+- **Animations:**
+  - Duration: 200ms (micro), 300ms (standard), 600ms (page)
+  - Easing: cubic-bezier(0.4, 0, 0.2, 1)
+  - Variants: fadeIn, slideUp, scale, stagger
+
+### Components to Build
+
+#### 1. Design System Foundation
+- Extended Tailwind config with new colors, fonts, spacing
+- Animation variants (Framer Motion)
+- Glassmorphism utilities (.glass, .glass-dark)
+- Neumorphism shadows
+- Gradient combinations
+
+#### 2. Core Components Library
+- Button variants (primary, secondary, ghost, neon, gradient, icon-only)
+- Animated cards with hover effects (lift, glow, tilt)
+- Input fields with floating labels and focus animations
+- Modal/Dialog with backdrop blur
+- Loading spinners and skeletons
+- Progress indicators (circular, linear, steps)
+- Tooltip system
+- Toast notifications
+
+#### 3. Layout Components
+- Sticky navigation header
+  - Logo with animation
+  - Smooth scroll menu
+  - Active section indicator
+  - Mobile hamburger menu with slide-out animation
+- Footer with animated links and social icons
+- Breadcrumb navigation
+- Page transitions
+
+#### 4. Homepage Sections
+
+**Hero Section:**
+- Particle background animation (Three.js)
+- Floating 3D geometric shapes
+- Typewriter effect for main headline
+- Animated metrics counters
+- Interactive CTA buttons with:
+  - Hover glow effects
+  - Ripple animation on click
+  - Loading state
+
+**Services Section:**
+- Service cards with:
+  - 3D tilt on hover
+  - Icon animation
+  - Expandable details
+  - Video preview support
+- Filter system with smooth transitions
+- "Learn More" animations
+
+**Case Studies Section:**
+- Interactive case cards with:
+  - Flip animation on hover
+  - Before/After image slider
+  - Technology stack badges
+  - Results metrics
+- Lightbox gallery
+- Pagination with smooth transitions
+
+**Testimonials Section:**
+- 3D carousel with:
+  - Card rotation effect
+  - Auto-play with pause on hover
+  - Touch/swipe support
+- Video testimonial player
+- Customer logo marquee
+- Star ratings animation
+
+**About Section:**
+- Team member cards with:
+  - Photo hover effects (zoom, border)
+  - Social links animation
+  - Bio reveal on hover
+- Company timeline with:
+  - Interactive milestones
+  - Scroll-triggered reveals
+  - Scroll-triggered progress bar
+
+#### 5. Content Pages
+
+**Services Detail Pages:**
+- Process timeline with:
+  - Step-by-step animation
+  - Icon for each step
+  - Completion percentage
+- Pricing table with:
+  - Hover effects
+  - Feature comparison
+  - CTA button animation
+- FAQ accordion with:
+  - Smooth expand/collapse
+  - Animated chevron
+  - Search filter
+
+**Case Study Detail Pages:**
+- Hero section with:
+  - Video background option
+  - Project stats counters
+  - Technology icons
+- Image gallery with:
+  - Lightbox viewer
+  - Thumbnail navigation
+  - Zoom on hover
+
+**About Page:**
+- Company story with:
+  - Scroll-triggered paragraphs
+  - Milestone markers
+  - Photo collage animation
+- Team grid with:
+  - Individual cards
+  - Skill bars animation
+  - Contact modal on click
+
+#### 6. Contact & Conversion
+
+**Contact Form:**
+- Multi-step form with:
+  - Progress indicator (animated)
+  - Step transitions
+  - Field validation with:
+    - Real-time feedback
+    - Animated error/success states
+    - Auto-focus next field
+- Success page with:
+  - Thank you animation
+  - Next steps
+  - Social sharing
+
+**Live Chat:**
+- Floating chat button with:
+  - Pulse animation
+  - Unread message indicator
+  - Auto-hide on scroll
+- Chat window with:
+  - Smooth slide-in/out
+  - Typing indicators
+  - File upload support
+  - Pre-defined quick answers
+
+#### 7. Advanced Features
+
+**Scroll Animations:**
+- Smooth scrolling (Lenis)
+- Parallax effects
+- Scroll-triggered reveals (Intersection Observer)
+- Staggered animations for lists
+- Scroll progress indicator
+
+**Micro-interactions:**
+- Button hover states (color, scale, shadow)
+- Link animations (underline, color change)
+- Image hover effects (zoom, overlay)
+- Form field focus states (border, label animation)
+- Loading states (spinners, skeletons)
+- Success/error feedback (check, cross animations)
+
+**Page Transitions:**
+- Route transitions (slide, fade, scale)
+- Loading screens with:
+  - Logo animation
+  - Progress bar
+  - Tip text rotation
+- 404 page with:
+  - Creative illustration
+  - Animated elements
+  - Back to home CTA
+
+#### 8. Mobile Optimization
+
+**Touch Interactions:**
+- Swipe gestures (carousel, image gallery)
+- Pull-to-refresh
+- Long-press menus
+- Touch-friendly sizing (44px min)
+- Haptic feedback simulation
+
+**Mobile-specific:**
+- Bottom sheet modals
+- Mobile navigation patterns
+- Collapsible sections
+- Optimized animations (reduce motion respect)
+- PWA features (install prompt, offline)
+
+#### 9. Performance Requirements
+
+- **Load Time:** <2 seconds
+- **Lighthouse Performance:** >95
+- **First Contentful Paint:** <1s
+- **Time to Interactive:** <2s
+- **Bundle Size:** <100KB (gzipped)
+- **Images:** WebP format, lazy loading
+- **Code Splitting:** Route-based
+- **Caching:** Service worker for static assets
+
+#### 10. Accessibility (WCAG 2.1 AA)
+
+- **Keyboard Navigation:** All interactive elements
+- **Screen Readers:** ARIA labels, roles, descriptions
+- **Color Contrast:** Minimum 4.5:1
+- **Focus Indicators:** Visible and clear
+- **Alt Text:** All images
+- **Form Labels:** Associated with inputs
+- **Error Messages:** Clear and specific
+- **High Contrast Mode:** Support
+- **Reduced Motion:** Respect user preference
+
+#### 11. SEO & Analytics
+
+- **Meta Tags:** Optimized for each page
+- **Open Graph:** Social sharing cards
+- **Structured Data:** JSON-LD for business info
+- **Sitemap:** Auto-generated
+- **Analytics:** GA4 with custom events
+- **Conversion Tracking:** Form submissions, CTA clicks
+- **Performance Monitoring:** Core Web Vitals
+
+## Technical Architecture
+
+### Dependencies to Add
+```json
+{
+  "framer-motion": "^11.x",
+  "lucide-react": "^0.x",
+  "lenis": "^1.x",
+  "react-intersection-observer": "^9.x",
+  "@react-three/fiber": "^8.x",
+  "@react-three/drei": "^9.x",
+  "three": "^0.16.x",
+  "lottie-react": "^2.x"
+}
+```
+
+### Project Structure
+```
+/apps/web/src
+  /components
+    /ui
+      - Button, Card, Input, Modal, etc.
+    /layout
+      - Header, Footer, Navigation
+    /sections
+      - Hero, Services, Cases, etc.
+    /animations
+      - variants.ts, hooks.ts
+  /lib
+    - api.ts, utils.ts
+  /styles
+    - globals.css (enhanced)
+```
+
+## Success Metrics
+
+### Quantitative
+- **Load Time:** <2 seconds ✅
+- **Lighthouse Performance:** >95 ✅
+- **Lighthouse Accessibility:** >90 ✅
+- **Lighthouse SEO:** >90 ✅
+- **User Engagement:** +40% (scroll depth, time on page)
+- **Conversion Rate:** +25% (contact form submissions)
+- **Bounce Rate:** -30%
+
+### Qualitative
+- First impression rating: 8.5+/10
+- Usability score: 90%+
+- Visual appeal rating: 9/10
+- Clear value proposition understanding: 85%+
+
+## Timeline (7 weeks)
+
+**Week 1-2: Foundation**
+- Design system setup
+- Core component library
+- Navigation & layout
+- Hero section
+
+**Week 2-3: Homepage**
+- Services section
+- Case studies
+- Testimonials
+- About section
+
+**Week 3-4: Content Pages**
+- Services detail pages
+- Case study pages
+- Contact form
+- About page
+
+**Week 4-5: Interactions**
+- Scroll animations
+- Micro-interactions
+- Page transitions
+- Mobile optimization
+
+**Week 5-6: Polish**
+- Performance optimization
+- Accessibility audit
+- Cross-browser testing
+- Bug fixes
+
+**Week 6-7: Launch Prep**
+- SEO optimization
+- Analytics setup
+- Final testing
+- Deployment
+
+## Dependencies & Risks
+
+**Dependencies:**
+1. Backend API readiness
+2. Content availability (images, copy)
+3. Design approval at milestones
+4. Performance budget adherence
+
+**Risks:**
+1. Animation performance on low-end devices
+2. Increased complexity affecting maintenance
+3. Over-animation leading to poor UX
+4. Time constraints on polish
+
+**Mitigation:**
+1. Performance testing on various devices
+2. Accessibility testing from week 1
+3. User testing at 50% completion
+4. Prioritize core features, defer nice-to-haves
+
+## Launch Checklist
+
+- [ ] All pages responsive and tested
+- [ ] Performance score >95
+- [ ] Accessibility score >90
+- [ ] All forms tested and working
+- [ ] Analytics configured
+- [ ] SEO meta tags added
+- [ ] Social sharing images created
+- [ ] 404 page custom
+- [ ] Loading states implemented
+- [ ] Error states designed
+- [ ] Cross-browser testing (Chrome, Firefox, Safari, Edge)
+- [ ] Device testing (Desktop, Tablet, Mobile)
+- [ ] Content reviewed and approved
+- [ ] Accessibility audit passed
+- [ ] Performance budget met
+- [ ] Documentation updated
+
+---
+
+## Appendix
+
+### A. Animation Guidelines
+- Keep animations under 300ms
+- Use transforms for GPU acceleration
+- Respect `prefers-reduced-motion`
+- Ensure 60fps performance
+- Test on 60Hz and 120Hz displays
+
+### B. Color Usage
+- Primary: 60% of UI
+- Secondary: 30% of UI
+- Accent: 10% of UI
+- Maintain consistent contrast ratios
+
+### C. Typography Rules
+- Maximum 8 font sizes
+- Clear hierarchy (H1-H6)
+- Line height: 1.5-1.75 for body
+- Line length: 45-75 characters
+
+### D. Icon System
+- Use consistent style (outline vs filled)
+- Size variants: 16px, 20px, 24px, 32px
+- Always include aria-label
+- Use for navigation, actions, status
+
+### E. Form Guidelines
+- Clear labels
+- Helpful placeholders
+- Real-time validation
+- Accessible error messages
+- Success confirmation
+
+---
+
+**Ready to transform TB Group's digital presence into a modern, engaging experience! 🚀**

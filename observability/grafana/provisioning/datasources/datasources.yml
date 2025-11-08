@@ -1,0 +1,58 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    version: 1
+    editable: true
+    jsonData:
+      timeInterval: "15s"
+      queryTimeout: "60s"
+      httpMethod: "POST"
+      manageAlerts: true
+      alertmanagerUid: "alertmanager"
+    # Uncomment below if you need to set a custom org role
+    # orgId: 1
+
+  # Uncomment below to add a second datasource for long-term storage
+  # - name: LongTerm-Storage
+  #   type: prometheus
+  #   access: proxy
+  #   url: https://your-remote-prometheus.example.com
+  #   isDefault: false
+  #   version: 1
+  #   editable: true
+  #   jsonData:
+  #     timeInterval: "30s"
+  #     httpMethod: "POST"
+  #   secureJsonData:
+  #     httpHeaderValue1: "Bearer your-remote-token"
+  #   httpHeaderName1: "Authorization"
+
+  # Uncomment below to add Loki for log aggregation
+  # - name: Loki
+  #   type: loki
+  #   access: proxy
+  #   url: http://loki:3100
+  #   isDefault: false
+  #   version: 1
+  #   editable: true
+  #   jsonData:
+  #     maxLines: 1000
+  #     timeout: 60s
+
+  # Uncomment below to add Tempo for distributed tracing
+  # - name: Tempo
+  #   type: tempo
+  #   access: proxy
+  #   url: http://tempo:3200
+  #   isDefault: false
+  #   version: 1
+  #   editable: true
+  #   jsonData:
+  #     httpHeaderName1: "Authorization"
+  #   secureJsonData:
+  #     httpHeaderValue1: "Bearer tempo-token"

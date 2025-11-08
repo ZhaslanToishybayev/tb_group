@@ -1,0 +1,3823 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "TB Group API",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Service": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "description": {},
+          "heroImageUrl": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "iconUrl": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "order": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "slug",
+          "title",
+          "summary",
+          "heroImageUrl",
+          "iconUrl",
+          "order",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "ServiceCreate": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {},
+          "heroImageUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "iconUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "order": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "slug",
+          "title",
+          "summary"
+        ]
+      },
+      "ServiceUpdate": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {},
+          "heroImageUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "iconUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "order": {
+            "type": "integer"
+          }
+        }
+      },
+      "Case": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "projectTitle": {
+            "type": "string"
+          },
+          "clientName": {
+            "type": "string"
+          },
+          "industry": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "summary": {
+            "type": "string"
+          },
+          "challenge": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "solution": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "results": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "metrics": {},
+          "category": {
+            "type": "string",
+            "enum": [
+              "MY_SKLAD",
+              "BITRIX24",
+              "TELEPHONY",
+              "OTHER"
+            ]
+          },
+          "serviceId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "heroImageUrl": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "videoUrl": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "published": {
+            "type": "boolean"
+          },
+          "publishedAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "slug",
+          "projectTitle",
+          "clientName",
+          "industry",
+          "summary",
+          "challenge",
+          "solution",
+          "results",
+          "category",
+          "serviceId",
+          "heroImageUrl",
+          "videoUrl",
+          "published",
+          "publishedAt",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "CaseCreate": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "minLength": 1
+          },
+          "projectTitle": {
+            "type": "string",
+            "minLength": 1
+          },
+          "clientName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "industry": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "challenge": {
+            "type": "string"
+          },
+          "solution": {
+            "type": "string"
+          },
+          "results": {
+            "type": "string"
+          },
+          "metrics": {},
+          "category": {
+            "type": "string",
+            "enum": [
+              "MY_SKLAD",
+              "BITRIX24",
+              "TELEPHONY",
+              "OTHER"
+            ]
+          },
+          "serviceId": {
+            "type": "string"
+          },
+          "heroImageUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "videoUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "published": {
+            "type": "boolean"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "slug",
+          "projectTitle",
+          "clientName",
+          "summary",
+          "category"
+        ]
+      },
+      "CaseUpdate": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "minLength": 1
+          },
+          "projectTitle": {
+            "type": "string",
+            "minLength": 1
+          },
+          "clientName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "industry": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "challenge": {
+            "type": "string"
+          },
+          "solution": {
+            "type": "string"
+          },
+          "results": {
+            "type": "string"
+          },
+          "metrics": {},
+          "category": {
+            "type": "string",
+            "enum": [
+              "MY_SKLAD",
+              "BITRIX24",
+              "TELEPHONY",
+              "OTHER"
+            ]
+          },
+          "serviceId": {
+            "type": "string"
+          },
+          "heroImageUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "videoUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "published": {
+            "type": "boolean"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "authorName": {
+            "type": "string"
+          },
+          "authorTitle": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "company": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "quote": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reviewType": {
+            "type": "string",
+            "enum": [
+              "TEXT",
+              "VIDEO"
+            ]
+          },
+          "videoUrl": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "videoProvider": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "YOUTUBE",
+              "VIMEO",
+              "HOSTED"
+            ]
+          },
+          "rating": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "isFeatured": {
+            "type": "boolean"
+          },
+          "isPublished": {
+            "type": "boolean"
+          },
+          "caseId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "authorName",
+          "authorTitle",
+          "company",
+          "quote",
+          "reviewType",
+          "videoUrl",
+          "videoProvider",
+          "rating",
+          "isFeatured",
+          "isPublished",
+          "caseId",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "ReviewCreate": {
+        "type": "object",
+        "properties": {
+          "authorName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authorTitle": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "quote": {
+            "type": "string"
+          },
+          "reviewType": {
+            "type": "string",
+            "enum": [
+              "TEXT",
+              "VIDEO"
+            ],
+            "default": "TEXT"
+          },
+          "videoUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "videoProvider": {
+            "type": "string",
+            "enum": [
+              "YOUTUBE",
+              "VIMEO",
+              "HOSTED"
+            ]
+          },
+          "rating": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+          },
+          "isFeatured": {
+            "type": "boolean"
+          },
+          "isPublished": {
+            "type": "boolean"
+          },
+          "caseId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "authorName"
+        ]
+      },
+      "ReviewUpdate": {
+        "type": "object",
+        "properties": {
+          "authorName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authorTitle": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "quote": {
+            "type": "string"
+          },
+          "reviewType": {
+            "type": "string",
+            "enum": [
+              "TEXT",
+              "VIDEO"
+            ],
+            "default": "TEXT"
+          },
+          "videoUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "videoProvider": {
+            "type": "string",
+            "enum": [
+              "YOUTUBE",
+              "VIMEO",
+              "HOSTED"
+            ]
+          },
+          "rating": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+          },
+          "isFeatured": {
+            "type": "boolean"
+          },
+          "isPublished": {
+            "type": "boolean"
+          },
+          "caseId": {
+            "type": "string"
+          }
+        }
+      },
+      "Banner": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "placement": {
+            "type": "string",
+            "enum": [
+              "HOME_HERO",
+              "CTA_PRIMARY",
+              "CTA_SECONDARY"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "ctaLabel": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "ctaLink": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "serviceId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "order": {
+            "type": "number"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "placement",
+          "title",
+          "subtitle",
+          "ctaLabel",
+          "ctaLink",
+          "serviceId",
+          "order",
+          "isActive",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "BannerCreate": {
+        "type": "object",
+        "properties": {
+          "placement": {
+            "type": "string",
+            "enum": [
+              "HOME_HERO",
+              "CTA_PRIMARY",
+              "CTA_SECONDARY"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "ctaLabel": {
+            "type": "string"
+          },
+          "ctaLink": {
+            "type": "string",
+            "format": "uri"
+          },
+          "serviceId": {
+            "type": "string"
+          },
+          "mediaId": {
+            "type": "string"
+          },
+          "order": {
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "placement",
+          "title"
+        ]
+      },
+      "BannerUpdate": {
+        "type": "object",
+        "properties": {
+          "placement": {
+            "type": "string",
+            "enum": [
+              "HOME_HERO",
+              "CTA_PRIMARY",
+              "CTA_SECONDARY"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "ctaLabel": {
+            "type": "string"
+          },
+          "ctaLink": {
+            "type": "string",
+            "format": "uri"
+          },
+          "serviceId": {
+            "type": "string"
+          },
+          "mediaId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "order": {
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Setting": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {},
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "updatedAt"
+        ]
+      },
+      "SettingUpsert": {
+        "type": "object",
+        "properties": {
+          "value": {}
+        }
+      },
+      "Media": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "IMAGE",
+              "VIDEO",
+              "DOCUMENT"
+            ]
+          },
+          "altText": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "mimeType": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "size": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "metadata": {},
+          "caseId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reviewId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "url",
+          "type",
+          "altText",
+          "mimeType",
+          "size",
+          "caseId",
+          "reviewId",
+          "createdAt"
+        ]
+      },
+      "MediaCreate": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "IMAGE",
+              "VIDEO",
+              "DOCUMENT"
+            ]
+          },
+          "altText": {
+            "type": "string"
+          },
+          "mimeType": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "metadata": {},
+          "caseId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reviewId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "url",
+          "type"
+        ]
+      },
+      "MediaUpdate": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "IMAGE",
+              "VIDEO",
+              "DOCUMENT"
+            ]
+          },
+          "altText": {
+            "type": "string"
+          },
+          "mimeType": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "metadata": {},
+          "caseId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reviewId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "AuthLogin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "AuthRefresh": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "minLength": 10
+          }
+        },
+        "required": [
+          "refreshToken"
+        ]
+      },
+      "AuthLogout": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "minLength": 10
+          }
+        },
+        "required": [
+          "refreshToken"
+        ]
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "summary": "Admin login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tokens issued"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        }
+      }
+    },
+    "/api/auth/refresh": {
+      "post": {
+        "summary": "Refresh tokens",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refreshToken": {
+                    "type": "string",
+                    "minLength": 10
+                  }
+                },
+                "required": [
+                  "refreshToken"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tokens rotated"
+          },
+          "401": {
+            "description": "Invalid refresh token"
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "summary": "Revoke refresh token",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refreshToken": {
+                    "type": "string",
+                    "minLength": 10
+                  }
+                },
+                "required": [
+                  "refreshToken"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Token revoked"
+          }
+        }
+      }
+    },
+    "/api/services": {
+      "get": {
+        "summary": "List services",
+        "responses": {
+          "200": {
+            "description": "List of services",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "slug": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "summary": {
+                            "type": "string"
+                          },
+                          "description": {},
+                          "heroImageUrl": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "iconUrl": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "order": {
+                            "type": "number"
+                          },
+                          "createdAt": {
+                            "type": "string"
+                          },
+                          "updatedAt": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "slug",
+                          "title",
+                          "summary",
+                          "heroImageUrl",
+                          "iconUrl",
+                          "order",
+                          "createdAt",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create service",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "slug": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "summary": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "description": {},
+                  "heroImageUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "iconUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "order": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "slug",
+                  "title",
+                  "summary"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Service created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "summary": {
+                          "type": "string"
+                        },
+                        "description": {},
+                        "heroImageUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "iconUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "order": {
+                          "type": "number"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "slug",
+                        "title",
+                        "summary",
+                        "heroImageUrl",
+                        "iconUrl",
+                        "order",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services/{idOrSlug}": {
+      "get": {
+        "summary": "Get service",
+        "responses": {
+          "200": {
+            "description": "Service",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "summary": {
+                          "type": "string"
+                        },
+                        "description": {},
+                        "heroImageUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "iconUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "order": {
+                          "type": "number"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "slug",
+                        "title",
+                        "summary",
+                        "heroImageUrl",
+                        "iconUrl",
+                        "order",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update service",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "slug": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "summary": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "description": {},
+                  "heroImageUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "iconUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "order": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Service updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "summary": {
+                          "type": "string"
+                        },
+                        "description": {},
+                        "heroImageUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "iconUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "order": {
+                          "type": "number"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "slug",
+                        "title",
+                        "summary",
+                        "heroImageUrl",
+                        "iconUrl",
+                        "order",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete service",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/cases": {
+      "get": {
+        "summary": "List /api/cases",
+        "responses": {
+          "200": {
+            "description": "List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "slug": {
+                            "type": "string"
+                          },
+                          "projectTitle": {
+                            "type": "string"
+                          },
+                          "clientName": {
+                            "type": "string"
+                          },
+                          "industry": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "summary": {
+                            "type": "string"
+                          },
+                          "challenge": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "solution": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "results": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "metrics": {},
+                          "category": {
+                            "type": "string",
+                            "enum": [
+                              "MY_SKLAD",
+                              "BITRIX24",
+                              "TELEPHONY",
+                              "OTHER"
+                            ]
+                          },
+                          "serviceId": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "heroImageUrl": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "videoUrl": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "published": {
+                            "type": "boolean"
+                          },
+                          "publishedAt": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "createdAt": {
+                            "type": "string"
+                          },
+                          "updatedAt": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "slug",
+                          "projectTitle",
+                          "clientName",
+                          "industry",
+                          "summary",
+                          "challenge",
+                          "solution",
+                          "results",
+                          "category",
+                          "serviceId",
+                          "heroImageUrl",
+                          "videoUrl",
+                          "published",
+                          "publishedAt",
+                          "createdAt",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create /api/cases",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "slug": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "projectTitle": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "clientName": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "industry": {
+                    "type": "string"
+                  },
+                  "summary": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "challenge": {
+                    "type": "string"
+                  },
+                  "solution": {
+                    "type": "string"
+                  },
+                  "results": {
+                    "type": "string"
+                  },
+                  "metrics": {},
+                  "category": {
+                    "type": "string",
+                    "enum": [
+                      "MY_SKLAD",
+                      "BITRIX24",
+                      "TELEPHONY",
+                      "OTHER"
+                    ]
+                  },
+                  "serviceId": {
+                    "type": "string"
+                  },
+                  "heroImageUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "videoUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "published": {
+                    "type": "boolean"
+                  },
+                  "publishedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                },
+                "required": [
+                  "slug",
+                  "projectTitle",
+                  "clientName",
+                  "summary",
+                  "category"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "projectTitle": {
+                          "type": "string"
+                        },
+                        "clientName": {
+                          "type": "string"
+                        },
+                        "industry": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "summary": {
+                          "type": "string"
+                        },
+                        "challenge": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "solution": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "results": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "metrics": {},
+                        "category": {
+                          "type": "string",
+                          "enum": [
+                            "MY_SKLAD",
+                            "BITRIX24",
+                            "TELEPHONY",
+                            "OTHER"
+                          ]
+                        },
+                        "serviceId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "heroImageUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "videoUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "published": {
+                          "type": "boolean"
+                        },
+                        "publishedAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "slug",
+                        "projectTitle",
+                        "clientName",
+                        "industry",
+                        "summary",
+                        "challenge",
+                        "solution",
+                        "results",
+                        "category",
+                        "serviceId",
+                        "heroImageUrl",
+                        "videoUrl",
+                        "published",
+                        "publishedAt",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reviews": {
+      "get": {
+        "summary": "List /api/reviews",
+        "responses": {
+          "200": {
+            "description": "List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "authorName": {
+                            "type": "string"
+                          },
+                          "authorTitle": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "company": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "quote": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "reviewType": {
+                            "type": "string",
+                            "enum": [
+                              "TEXT",
+                              "VIDEO"
+                            ]
+                          },
+                          "videoUrl": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "videoProvider": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "enum": [
+                              "YOUTUBE",
+                              "VIMEO",
+                              "HOSTED"
+                            ]
+                          },
+                          "rating": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "isFeatured": {
+                            "type": "boolean"
+                          },
+                          "isPublished": {
+                            "type": "boolean"
+                          },
+                          "caseId": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "createdAt": {
+                            "type": "string"
+                          },
+                          "updatedAt": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "authorName",
+                          "authorTitle",
+                          "company",
+                          "quote",
+                          "reviewType",
+                          "videoUrl",
+                          "videoProvider",
+                          "rating",
+                          "isFeatured",
+                          "isPublished",
+                          "caseId",
+                          "createdAt",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create /api/reviews",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "authorName": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "authorTitle": {
+                    "type": "string"
+                  },
+                  "company": {
+                    "type": "string"
+                  },
+                  "quote": {
+                    "type": "string"
+                  },
+                  "reviewType": {
+                    "type": "string",
+                    "enum": [
+                      "TEXT",
+                      "VIDEO"
+                    ],
+                    "default": "TEXT"
+                  },
+                  "videoUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "videoProvider": {
+                    "type": "string",
+                    "enum": [
+                      "YOUTUBE",
+                      "VIMEO",
+                      "HOSTED"
+                    ]
+                  },
+                  "rating": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 5
+                  },
+                  "isFeatured": {
+                    "type": "boolean"
+                  },
+                  "isPublished": {
+                    "type": "boolean"
+                  },
+                  "caseId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "authorName"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "authorName": {
+                          "type": "string"
+                        },
+                        "authorTitle": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "company": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "quote": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "reviewType": {
+                          "type": "string",
+                          "enum": [
+                            "TEXT",
+                            "VIDEO"
+                          ]
+                        },
+                        "videoUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "videoProvider": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "YOUTUBE",
+                            "VIMEO",
+                            "HOSTED"
+                          ]
+                        },
+                        "rating": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "isFeatured": {
+                          "type": "boolean"
+                        },
+                        "isPublished": {
+                          "type": "boolean"
+                        },
+                        "caseId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "authorName",
+                        "authorTitle",
+                        "company",
+                        "quote",
+                        "reviewType",
+                        "videoUrl",
+                        "videoProvider",
+                        "rating",
+                        "isFeatured",
+                        "isPublished",
+                        "caseId",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/banners": {
+      "get": {
+        "summary": "List /api/banners",
+        "responses": {
+          "200": {
+            "description": "List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "placement": {
+                            "type": "string",
+                            "enum": [
+                              "HOME_HERO",
+                              "CTA_PRIMARY",
+                              "CTA_SECONDARY"
+                            ]
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "subtitle": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "ctaLabel": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "ctaLink": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "serviceId": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "order": {
+                            "type": "number"
+                          },
+                          "isActive": {
+                            "type": "boolean"
+                          },
+                          "createdAt": {
+                            "type": "string"
+                          },
+                          "updatedAt": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "placement",
+                          "title",
+                          "subtitle",
+                          "ctaLabel",
+                          "ctaLink",
+                          "serviceId",
+                          "order",
+                          "isActive",
+                          "createdAt",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create /api/banners",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "placement": {
+                    "type": "string",
+                    "enum": [
+                      "HOME_HERO",
+                      "CTA_PRIMARY",
+                      "CTA_SECONDARY"
+                    ]
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "subtitle": {
+                    "type": "string"
+                  },
+                  "ctaLabel": {
+                    "type": "string"
+                  },
+                  "ctaLink": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "serviceId": {
+                    "type": "string"
+                  },
+                  "mediaId": {
+                    "type": "string"
+                  },
+                  "order": {
+                    "type": "integer"
+                  },
+                  "isActive": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "placement",
+                  "title"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "placement": {
+                          "type": "string",
+                          "enum": [
+                            "HOME_HERO",
+                            "CTA_PRIMARY",
+                            "CTA_SECONDARY"
+                          ]
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "subtitle": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "ctaLabel": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "ctaLink": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "serviceId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "order": {
+                          "type": "number"
+                        },
+                        "isActive": {
+                          "type": "boolean"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "placement",
+                        "title",
+                        "subtitle",
+                        "ctaLabel",
+                        "ctaLink",
+                        "serviceId",
+                        "order",
+                        "isActive",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/media": {
+      "get": {
+        "summary": "List /api/media",
+        "responses": {
+          "200": {
+            "description": "List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "IMAGE",
+                              "VIDEO",
+                              "DOCUMENT"
+                            ]
+                          },
+                          "altText": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "mimeType": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "size": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "metadata": {},
+                          "caseId": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "reviewId": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "createdAt": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "url",
+                          "type",
+                          "altText",
+                          "mimeType",
+                          "size",
+                          "caseId",
+                          "reviewId",
+                          "createdAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create /api/media",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "IMAGE",
+                      "VIDEO",
+                      "DOCUMENT"
+                    ]
+                  },
+                  "altText": {
+                    "type": "string"
+                  },
+                  "mimeType": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "integer"
+                  },
+                  "metadata": {},
+                  "caseId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "reviewId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "url",
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "IMAGE",
+                            "VIDEO",
+                            "DOCUMENT"
+                          ]
+                        },
+                        "altText": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "mimeType": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "size": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "metadata": {},
+                        "caseId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "reviewId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "url",
+                        "type",
+                        "altText",
+                        "mimeType",
+                        "size",
+                        "caseId",
+                        "reviewId",
+                        "createdAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cases/{idOrSlug}": {
+      "get": {
+        "summary": "Get /api/cases/{idOrSlug}",
+        "responses": {
+          "200": {
+            "description": "Record",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "projectTitle": {
+                          "type": "string"
+                        },
+                        "clientName": {
+                          "type": "string"
+                        },
+                        "industry": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "summary": {
+                          "type": "string"
+                        },
+                        "challenge": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "solution": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "results": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "metrics": {},
+                        "category": {
+                          "type": "string",
+                          "enum": [
+                            "MY_SKLAD",
+                            "BITRIX24",
+                            "TELEPHONY",
+                            "OTHER"
+                          ]
+                        },
+                        "serviceId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "heroImageUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "videoUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "published": {
+                          "type": "boolean"
+                        },
+                        "publishedAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "slug",
+                        "projectTitle",
+                        "clientName",
+                        "industry",
+                        "summary",
+                        "challenge",
+                        "solution",
+                        "results",
+                        "category",
+                        "serviceId",
+                        "heroImageUrl",
+                        "videoUrl",
+                        "published",
+                        "publishedAt",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update /api/cases/{idOrSlug}",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "slug": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "projectTitle": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "clientName": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "industry": {
+                    "type": "string"
+                  },
+                  "summary": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "challenge": {
+                    "type": "string"
+                  },
+                  "solution": {
+                    "type": "string"
+                  },
+                  "results": {
+                    "type": "string"
+                  },
+                  "metrics": {},
+                  "category": {
+                    "type": "string",
+                    "enum": [
+                      "MY_SKLAD",
+                      "BITRIX24",
+                      "TELEPHONY",
+                      "OTHER"
+                    ]
+                  },
+                  "serviceId": {
+                    "type": "string"
+                  },
+                  "heroImageUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "videoUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "published": {
+                    "type": "boolean"
+                  },
+                  "publishedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "projectTitle": {
+                          "type": "string"
+                        },
+                        "clientName": {
+                          "type": "string"
+                        },
+                        "industry": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "summary": {
+                          "type": "string"
+                        },
+                        "challenge": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "solution": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "results": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "metrics": {},
+                        "category": {
+                          "type": "string",
+                          "enum": [
+                            "MY_SKLAD",
+                            "BITRIX24",
+                            "TELEPHONY",
+                            "OTHER"
+                          ]
+                        },
+                        "serviceId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "heroImageUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "videoUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "published": {
+                          "type": "boolean"
+                        },
+                        "publishedAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "slug",
+                        "projectTitle",
+                        "clientName",
+                        "industry",
+                        "summary",
+                        "challenge",
+                        "solution",
+                        "results",
+                        "category",
+                        "serviceId",
+                        "heroImageUrl",
+                        "videoUrl",
+                        "published",
+                        "publishedAt",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete /api/cases/{idOrSlug}",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/reviews/{id}": {
+      "get": {
+        "summary": "Get /api/reviews/{id}",
+        "responses": {
+          "200": {
+            "description": "Record",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "authorName": {
+                          "type": "string"
+                        },
+                        "authorTitle": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "company": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "quote": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "reviewType": {
+                          "type": "string",
+                          "enum": [
+                            "TEXT",
+                            "VIDEO"
+                          ]
+                        },
+                        "videoUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "videoProvider": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "YOUTUBE",
+                            "VIMEO",
+                            "HOSTED"
+                          ]
+                        },
+                        "rating": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "isFeatured": {
+                          "type": "boolean"
+                        },
+                        "isPublished": {
+                          "type": "boolean"
+                        },
+                        "caseId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "authorName",
+                        "authorTitle",
+                        "company",
+                        "quote",
+                        "reviewType",
+                        "videoUrl",
+                        "videoProvider",
+                        "rating",
+                        "isFeatured",
+                        "isPublished",
+                        "caseId",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update /api/reviews/{id}",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "authorName": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "authorTitle": {
+                    "type": "string"
+                  },
+                  "company": {
+                    "type": "string"
+                  },
+                  "quote": {
+                    "type": "string"
+                  },
+                  "reviewType": {
+                    "type": "string",
+                    "enum": [
+                      "TEXT",
+                      "VIDEO"
+                    ],
+                    "default": "TEXT"
+                  },
+                  "videoUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "videoProvider": {
+                    "type": "string",
+                    "enum": [
+                      "YOUTUBE",
+                      "VIMEO",
+                      "HOSTED"
+                    ]
+                  },
+                  "rating": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 5
+                  },
+                  "isFeatured": {
+                    "type": "boolean"
+                  },
+                  "isPublished": {
+                    "type": "boolean"
+                  },
+                  "caseId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "authorName": {
+                          "type": "string"
+                        },
+                        "authorTitle": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "company": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "quote": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "reviewType": {
+                          "type": "string",
+                          "enum": [
+                            "TEXT",
+                            "VIDEO"
+                          ]
+                        },
+                        "videoUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "videoProvider": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "YOUTUBE",
+                            "VIMEO",
+                            "HOSTED"
+                          ]
+                        },
+                        "rating": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "isFeatured": {
+                          "type": "boolean"
+                        },
+                        "isPublished": {
+                          "type": "boolean"
+                        },
+                        "caseId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "authorName",
+                        "authorTitle",
+                        "company",
+                        "quote",
+                        "reviewType",
+                        "videoUrl",
+                        "videoProvider",
+                        "rating",
+                        "isFeatured",
+                        "isPublished",
+                        "caseId",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete /api/reviews/{id}",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/banners/{id}": {
+      "get": {
+        "summary": "Get /api/banners/{id}",
+        "responses": {
+          "200": {
+            "description": "Record",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "placement": {
+                          "type": "string",
+                          "enum": [
+                            "HOME_HERO",
+                            "CTA_PRIMARY",
+                            "CTA_SECONDARY"
+                          ]
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "subtitle": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "ctaLabel": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "ctaLink": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "serviceId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "order": {
+                          "type": "number"
+                        },
+                        "isActive": {
+                          "type": "boolean"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "placement",
+                        "title",
+                        "subtitle",
+                        "ctaLabel",
+                        "ctaLink",
+                        "serviceId",
+                        "order",
+                        "isActive",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update /api/banners/{id}",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "placement": {
+                    "type": "string",
+                    "enum": [
+                      "HOME_HERO",
+                      "CTA_PRIMARY",
+                      "CTA_SECONDARY"
+                    ]
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "subtitle": {
+                    "type": "string"
+                  },
+                  "ctaLabel": {
+                    "type": "string"
+                  },
+                  "ctaLink": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "serviceId": {
+                    "type": "string"
+                  },
+                  "mediaId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "order": {
+                    "type": "integer"
+                  },
+                  "isActive": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "placement": {
+                          "type": "string",
+                          "enum": [
+                            "HOME_HERO",
+                            "CTA_PRIMARY",
+                            "CTA_SECONDARY"
+                          ]
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "subtitle": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "ctaLabel": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "ctaLink": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "serviceId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "order": {
+                          "type": "number"
+                        },
+                        "isActive": {
+                          "type": "boolean"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "placement",
+                        "title",
+                        "subtitle",
+                        "ctaLabel",
+                        "ctaLink",
+                        "serviceId",
+                        "order",
+                        "isActive",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete /api/banners/{id}",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/media/{id}": {
+      "get": {
+        "summary": "Get /api/media/{id}",
+        "responses": {
+          "200": {
+            "description": "Record",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "IMAGE",
+                            "VIDEO",
+                            "DOCUMENT"
+                          ]
+                        },
+                        "altText": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "mimeType": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "size": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "metadata": {},
+                        "caseId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "reviewId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "url",
+                        "type",
+                        "altText",
+                        "mimeType",
+                        "size",
+                        "caseId",
+                        "reviewId",
+                        "createdAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update /api/media/{id}",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "IMAGE",
+                      "VIDEO",
+                      "DOCUMENT"
+                    ]
+                  },
+                  "altText": {
+                    "type": "string"
+                  },
+                  "mimeType": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "integer"
+                  },
+                  "metadata": {},
+                  "caseId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "reviewId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "IMAGE",
+                            "VIDEO",
+                            "DOCUMENT"
+                          ]
+                        },
+                        "altText": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "mimeType": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "size": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "metadata": {},
+                        "caseId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "reviewId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "url",
+                        "type",
+                        "altText",
+                        "mimeType",
+                        "size",
+                        "caseId",
+                        "reviewId",
+                        "createdAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete /api/media/{id}",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/settings": {
+      "get": {
+        "summary": "List settings",
+        "responses": {
+          "200": {
+            "description": "Settings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "key": {
+                            "type": "string"
+                          },
+                          "value": {},
+                          "updatedAt": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "key",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/settings/{key}": {
+      "get": {
+        "summary": "Get setting",
+        "responses": {
+          "200": {
+            "description": "Setting",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "key": {
+                          "type": "string"
+                        },
+                        "value": {},
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "key",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Upsert setting",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "value": {}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Setting updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "key": {
+                          "type": "string"
+                        },
+                        "value": {},
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "key",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete setting",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          }
+        }
+      }
+    }
+  },
+  "webhooks": {}
+}

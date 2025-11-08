@@ -1,0 +1,13 @@
+# Task ID: 8
+# Title: Develop Content Page Templates and Components
+# Status: pending
+# Dependencies: 3
+# Priority: medium
+# Description: Create templates and specialized components for the secondary content pages, including Services Detail, Case Study Detail, and the About page.
+# Details:
+1. **Services Detail Page**: Build an animated FAQ accordion using Framer Motion's `AnimatePresence`. Create a 'Process Timeline' component with scroll-triggered animations for each step. Design a responsive pricing table with hover effects on each tier. 
+2. **Case Study Detail Page**: Implement a hero section with a video background option and animated project stat counters. 
+3. **About Page**: Create a team grid with individual member cards that reveal bios on hover. Build a 'Company Story' component that animates paragraphs and milestones into view on scroll.
+
+# Test Strategy:
+Create dynamic routes (e.g., `/services/[slug]`) and test that each template renders correctly with mock data. Verify all interactive components on these pages (accordion, timeline animations, hover effects) work as expected. Ensure pages are responsive.

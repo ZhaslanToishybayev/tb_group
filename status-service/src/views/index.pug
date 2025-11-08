@@ -1,0 +1,52 @@
+doctype html
+html(lang='en')
+head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title TB Group - System Status
+    link(rel='stylesheet', href='/styles.css')
+
+body
+    .header
+        h1 TB Group System Status
+        .status-indicator(class=`status-${systemStatus}`)
+            = statusLabel
+
+    .stats
+        .stat-card
+            .stat-number= stats.total
+            .stat-label Total Incidents
+        .stat-card
+            .stat-number= stats.active
+            .stat-label Active Incidents
+        .stat-card
+            .stat-number= stats.highPriority
+            .stat-label High Priority
+
+    h2 Recent Incidents
+
+    if incidents.length === 0
+        .no-incidents
+            p ✅ All systems are operational!
+            p No incidents reported.
+    else
+        each incident in incidents
+            .incident
+                .incident-header
+                    h3.incident-title= incident.title
+                    span.badge(class=`severity-${incident.severity}`)= incident.severity
+                    span.badge(class=`status-${incident.status}`)= formatStatus(incident.status)
+                p= incident.description
+                .incident-meta
+                    span 📅 Created: #{formatDate(incident.created_at)}
+                    if incident.resolved_at
+                        span ✅ Resolved: #{formatDate(incident.resolved_at)}
+                        span ⏱️ Duration: #{incident.duration}
+                    else
+                        span ⏱️ Ongoing: #{incident.duration}
+                    if incident.updated_at && incident.updated_at !== incident.created_at
+                        .timestamp Last updated: #{formatDate(incident.updated_at)}
+
+    .footer
+        p Last updated: #{new Date().toLocaleString()}
+        p For real-time updates, please refresh this page.

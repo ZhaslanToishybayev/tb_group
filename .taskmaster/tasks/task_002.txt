@@ -1,0 +1,16 @@
+# Task ID: 2
+# Title: Build Core UI Component Library
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Develop a set of reusable, accessible, and animated core components based on the new design system. This includes buttons, cards, inputs, modals, and other fundamental UI elements.
+# Details:
+Create each component in its own file under `/apps/web/src/components/ui/`. 
+- **Button.tsx**: Use `cva` (class-variance-authority) to create variants (primary, secondary, ghost, neon, gradient). Integrate Framer Motion for hover/press animations and a ripple effect. 
+- **Card.tsx**: A flexible card component with props for animated hover effects (lift, glow, 3D tilt). 
+- **Input.tsx**: Implement a text input with a floating label effect and focus animations on the border/label. 
+- **Modal.tsx**: A dialog component with a backdrop blur effect (`backdrop-blur-sm`) and a scale/fade-in animation. 
+- **Other Components**: Develop Tooltip, Toast, Spinners, and Progress indicators using `lucide-react` for icons.
+
+# Test Strategy:
+Use Storybook or a dedicated test page to render and test each component in isolation. Verify all variants and states (hover, focus, disabled). Check for accessibility compliance (keyboard navigation, ARIA attributes). Test responsiveness on different screen sizes.

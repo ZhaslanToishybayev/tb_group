@@ -1,0 +1,86 @@
+# Status Service Admin API Examples
+#
+# These are example HTTP requests for testing the admin API endpoints.
+# Use with VS Code REST Client, Postman, or curl.
+
+# Base URL
+@baseUrl = http://localhost:3000
+
+### Health Check
+GET {{baseUrl}}/health
+
+### API Info
+GET {{baseUrl}}/api
+
+### List All Incidents
+GET {{baseUrl}}/admin/incidents
+
+### Create New Incident
+POST {{baseUrl}}/admin/incidents
+Content-Type: application/json
+
+{
+  "title": "Database Connection Pool Exhaustion",
+  "description": "The database connection pool has reached maximum capacity. All new connection attempts are timing out.",
+  "severity": "critical",
+  "status": "investigating"
+}
+
+### Create Incident with Default Status
+POST {{baseUrl}}/admin/incidents
+Content-Type: application/json
+
+{
+  "title": "CDN Cache Miss Rate Spike",
+  "description": "Cache miss rate increased to 45% due to improper cache invalidation.",
+  "severity": "medium"
+}
+
+### Get Specific Incident
+GET {{baseUrl}}/admin/incidents/1
+
+### Update Incident Status
+POST {{baseUrl}}/admin/incidents/1/status
+Content-Type: application/json
+
+{
+  "status": "identified"
+}
+
+### Resolve Incident
+POST {{baseUrl}}/admin/incidents/2/status
+Content-Type: application/json
+
+{
+  "status": "resolved"
+}
+
+### Get Statistics
+GET {{baseUrl}}/admin/stats
+
+### Clear All Incidents (Testing Only)
+POST {{baseUrl}}/admin/incidents/clear
+
+### Error Examples
+
+### Invalid Request - Missing Title
+POST {{baseUrl}}/admin/incidents
+Content-Type: application/json
+
+{
+  "description": "This should fail",
+  "severity": "medium"
+}
+
+### Invalid Request - Bad Severity
+POST {{baseUrl}}/admin/incidents
+Content-Type: application/json
+
+{
+  "title": "Test Incident",
+  "description": "Test description",
+  "severity": "invalid-severity"
+}
+
+### Invalid Incident ID
+GET {{baseUrl}}/admin/incidents/99999

@@ -1,0 +1,12 @@
+# Task ID: 9
+# Title: Build Multi-Step Contact Form and Live Chat
+# Status: pending
+# Dependencies: 2
+# Priority: high
+# Description: Implement the primary conversion tools: a multi-step contact form with real-time validation and a floating live chat widget.
+# Details:
+1. **Multi-Step Form**: Use `react-hook-form` for state management and validation. Create a parent component to manage the current step (`useState`). Use Framer Motion's `AnimatePresence` to create smooth slide transitions between steps. For each field, provide real-time validation feedback with animated error/success states. On successful submission, route the user to an animated 'Thank You' page. 
+2. **Live Chat**: Implement a floating action button with a pulse animation to draw attention. On click, a chat window slides in from the bottom/side. This can be a placeholder UI initially, with integration for a third-party service (like Intercom or Crisp) to follow.
+
+# Test Strategy:
+Test the form end-to-end. Try submitting with invalid data to check all validation messages. Ensure step transitions are smooth. Verify successful submission redirects to the correct page. Test the live chat button's animations and the chat window's slide-in/out behavior.

@@ -1,0 +1,12 @@
+# Task ID: 6
+# Title: Construct Services and Case Studies Sections
+# Status: pending
+# Dependencies: 4, 5
+# Priority: medium
+# Description: Develop the 'Services' and 'Case Studies' sections for the homepage, featuring interactive cards with 3D tilt effects, filtering, and a lightbox gallery.
+# Details:
+1. **Services Section**: Create service cards with a 3D tilt effect on hover using Framer Motion's `useMotionValue` and `useTransform` hooks to map mouse position to `rotateX` and `rotateY`. Implement a filter system using `useState` to manage the active category and Framer Motion's `AnimatePresence` to animate items in and out. 
+2. **Case Studies Section**: Build interactive cards that use a flip animation (`rotateY: 180`) on hover to reveal details. Integrate a 'Before/After' slider component. Clicking a card should open a modal-based lightbox gallery for images.
+
+# Test Strategy:
+Test the 3D tilt effect on service cards for smoothness. Verify the service filtering works and animations are correct. For case studies, check the flip animation and ensure the lightbox gallery is fully functional (opens, closes, navigates).

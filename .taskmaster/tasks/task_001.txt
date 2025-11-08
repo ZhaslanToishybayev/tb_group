@@ -1,0 +1,14 @@
+# Task ID: 1
+# Title: Establish Design System Foundation in Tailwind and Install Dependencies
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Extend the existing Tailwind CSS configuration to include the new design system (colors, typography, spacing) and install all required new dependencies for advanced animations and interactions.
+# Details:
+1. **Install Dependencies**: Run `npm install framer-motion@^11 lucide-react@^0 lenis@^1 react-intersection-observer@^9 @react-three/fiber@^8 @react-three/drei@^9 three@^0.16 lottie-react@^2`. 
+2. **Update Tailwind Config**: Modify `tailwind.config.ts` to extend `theme` with the new color palette (primary blue gradient, secondary purple, neon accents), typography (Inter, JetBrains Mono), and spacing scale. 
+3. **Create Utilities**: Add custom utilities for glassmorphism (`.glass`, `.glass-dark`), neumorphism shadows, and gradient text. 
+4. **Animation Variants**: Create `/apps/web/src/components/animations/variants.ts` to define reusable Framer Motion variants (fadeIn, slideUp, scale, stagger) with specified durations and easing.
+
+# Test Strategy:
+Verify that all new dependencies are installed and the application builds successfully. Check that new color, font, and spacing utilities are available and can be applied to components. Create a test page to render elements with the new styles and Framer Motion variants to confirm they work as expected.

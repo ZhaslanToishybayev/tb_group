@@ -1,0 +1,433 @@
+name: TB Group CI/CD Pipeline
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+  schedule:
+    # Daily security audit at 2 AM UTC
+    - cron: '0 2 * * *'
+
+env:
+  NODE_VERSION: '20'
+  PNPM_VERSION: '9'
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Code Quality Checks
+  quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run ESLint
+        run: pnpm run lint
+        continue-on-error: false
+
+      - name: Type check
+        run: pnpm run type-check
+        continue-on-error: false
+
+  # Unit & Integration Tests
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    needs: quality
+    strategy:
+      matrix:
+        component: [api, web, admin]
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: tbgroup_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup test database
+        run: |
+          cd apps/api
+          pnpm run prisma:generate
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/tbgroup_test
+
+      - name: Run database migrations
+        run: |
+          cd apps/api
+          pnpm run prisma:migrate
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/tbgroup_test
+
+      - name: Run tests
+        run: |
+          cd apps/${{ matrix.component }}
+          if [ -f "package.json" ]; then
+            case "${{ matrix.component }}" in
+              "api")
+                pnpm run test:coverage
+                ;;
+              "web"|"admin")
+                pnpm run test
+                ;;
+            esac
+          else
+            echo "No tests found for ${{ matrix.component }}"
+          fi
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/tbgroup_test
+          TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/tbgroup_test
+          REDIS_URL: redis://localhost:6379
+          NODE_ENV: test
+          EMAIL_USE_STUB: true
+          BITRIX24_USE_STUB: true
+          RECAPTCHA_SECRET: test-secret
+          JWT_ACCESS_SECRET: test-access-secret
+          JWT_REFRESH_SECRET: test-refresh-secret
+          NEXT_PUBLIC_API_URL: http://localhost:4000
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./apps/${{ matrix.component }}/coverage/lcov.info
+          flags: ${{ matrix.component }}
+          name: ${{ matrix.component }}-coverage
+
+  # E2E Tests
+  e2e:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    needs: [quality, test]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Build applications
+        run: pnpm run build
+        env:
+          NODE_ENV: production
+
+      - name: Setup test environment
+        run: |
+          docker-compose up -d
+        env:
+          NODE_ENV: test
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/tbgroup_test
+          REDIS_URL: redis://redis:6379
+
+      - name: Wait for services
+        run: |
+          npx wait-port http://localhost:3000 --timeout 120000
+          npx wait-port http://localhost:4000 --timeout 120000
+
+      - name: Run Playwright tests
+        run: |
+          cd e2e
+          pnpm exec playwright test
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-results
+          path: |
+            e2e/test-results/
+            e2e/playwright-report/
+
+  # Security Audit
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run security audit
+        run: |
+          pnpm audit --audit-level moderate
+          # app-specific audits can be added here
+
+      - name: Run dependency check
+        run: |
+          # Add additional security scanning tools here
+          # Example: npm audit, snyk, etc.
+          echo "Running additional security checks..."
+
+  # Docker Build & Push
+  build:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    needs: [quality, test, e2e, security]
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+      image-digest: ${{ steps.build.outputs.digest }}
+    strategy:
+      matrix:
+        service: [api, web, admin]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.service }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./apps/${{ matrix.service }}/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            NODE_ENV=production
+            ${{ matrix.service.toUpperCase() }}_VERSION=${{ github.sha }}
+
+  # Deploy to Staging
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to staging
+        run: |
+          echo "🚀 Deploying to staging environment"
+          # Add staging deployment script here
+          # Example: kubectl apply -f k8s/staging/ or docker-compose
+
+      - name: Run smoke tests
+        run: |
+          echo "Running smoke tests on staging"
+          # Add staging smoke test commands here
+
+      - name: Notify deployment
+        run: |
+          echo "✅ Staging deployment completed"
+          # Add notification logic here
+
+  # Deploy to Production
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    environment: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to production
+        run: |
+          echo "🚀 Deploying to production environment"
+          # Add production deployment script here
+          # Example: kubectl apply -f k8s/production/ or deployment pipeline
+
+      - name: Run production health checks
+        run: |
+          echo "Running production health checks"
+          # Add production health check commands here
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: Release v${{ github.run_number }}
+          draft: false
+          prerelease: false
+          body: |
+            ## 🚀 Deployment Details
+            - **Commit**: ${{ github.sha }}
+            - **Branch**: ${{ github.ref }}
+            - **Environment**: Production
+            - **Services**: API, Web, Admin
+            - **Registry**: ${{ env.REGISTRY }}
+
+            ## ✅ Quality Checks Passed
+            - Code quality (ESLint, TypeScript)
+            - Unit & Integration tests
+            - E2E tests with Playwright
+            - Security audit
+            - Docker image build
+
+      - name: Notify production deployment
+        run: |
+          echo "🎉 Production deployment completed successfully!"
+          # Add notification logic here (Slack, Teams, email, etc.)
+
+  # Pipeline Summary
+  summary:
+    name: Pipeline Summary
+    runs-on: ubuntu-latest
+    needs: [quality, test, e2e, security, build, deploy-staging, deploy-production]
+    if: always()
+    steps:
+      - name: Pipeline Summary
+        run: |
+          echo "## 📊 TB Group Pipeline Summary"
+          echo ""
+          echo "### ✅ Completed Jobs:"
+          echo "- Quality Checks: ${{ needs.quality.result }}"
+          echo "- Tests: ${{ needs.test.result }}"
+          echo "- E2E Tests: ${{ needs.e2e.result }}"
+          echo "- Security Audit: ${{ needs.security.result }}"
+          echo "- Docker Build: ${{ needs.build.result }}"
+          echo "- Staging Deploy: ${{ needs.deploy-staging.result }}"
+          echo "- Production Deploy: ${{ needs.deploy-production.result }}"
+          echo ""
+          echo "### 📈 Pipeline Status: ${{ job.status }}"
+
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "🎉 All checks passed! Pipeline completed successfully."
+          else
+            echo "❌ Some checks failed. Please review the pipeline logs."
+          fi

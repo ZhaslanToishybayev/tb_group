@@ -1,0 +1,296 @@
+{
+  "id": 97,
+  "title": "Add Validation, Error Handling, and OpenAPI Documentation",
+  "description": "Strengthen API robustness with request validation, structured errors, logging, and generated API docs.",
+  "details": "Deliverables:\n- Shared validation layer using Zod + `express-zod-api` or custom middleware.\n- Centralized error formatter mapping domain errors to HTTP codes.\n- OpenAPI spec coverage for all endpoints with `@asteasolutions/zod-to-openapi` to generate `openapi.yaml` and serve via Swagger UI on `/docs`.\nPseudo-code:\n```\nconst createServiceSchema = z.object({ title: z.string().min(3), ... });\napp.post('/api/services', validate(createServiceSchema), asyncHandler(createService));\n```\nImplementation notes:\n- Instrument structured logging for validation failures.\n- Provide response envelope spec for consistency (`{ data, meta }`).\n- Document rate limiting and auth requirements within OpenAPI.",
+  "testStrategy": "Unit tests for validation schemas; snapshot test validating OpenAPI generation; integration test ensuring invalid payload returns 422 with error details.",
+  "priority": "medium",
+  "dependencies": [],
+  "status": "done",
+  "subtasks": [],
+  "updatedAt": "2025-10-18T22:43:39.045Z",
+  "master": {
+    "tasks": [
+      {
+        "id": "1",
+        "title": "Establish Design System Foundation in Tailwind and Install Dependencies",
+        "description": "Extend the existing Tailwind CSS configuration to include the new design system (colors, typography, spacing) and install all required new dependencies for advanced animations and interactions.",
+        "details": "1. **Install Dependencies**: Run `npm install framer-motion@^11 lucide-react@^0 lenis@^1 react-intersection-observer@^9 @react-three/fiber@^8 @react-three/drei@^9 three@^0.16 lottie-react@^2`. \n2. **Update Tailwind Config**: Modify `tailwind.config.ts` to extend `theme` with the new color palette (primary blue gradient, secondary purple, neon accents), typography (Inter, JetBrains Mono), and spacing scale. \n3. **Create Utilities**: Add custom utilities for glassmorphism (`.glass`, `.glass-dark`), neumorphism shadows, and gradient text. \n4. **Animation Variants**: Create `/apps/web/src/components/animations/variants.ts` to define reusable Framer Motion variants (fadeIn, slideUp, scale, stagger) with specified durations and easing.",
+        "testStrategy": "Verify that all new dependencies are installed and the application builds successfully. Check that new color, font, and spacing utilities are available and can be applied to components. Create a test page to render elements with the new styles and Framer Motion variants to confirm they work as expected.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2025-11-02T17:51:32.099Z"
+      },
+      {
+        "id": "2",
+        "title": "Build Core UI Component Library",
+        "description": "Develop a set of reusable, accessible, and animated core components based on the new design system. This includes buttons, cards, inputs, modals, and other fundamental UI elements.",
+        "details": "Create each component in its own file under `/apps/web/src/components/ui/`. \n- **Button.tsx**: Use `cva` (class-variance-authority) to create variants (primary, secondary, ghost, neon, gradient). Integrate Framer Motion for hover/press animations and a ripple effect. \n- **Card.tsx**: A flexible card component with props for animated hover effects (lift, glow, 3D tilt). \n- **Input.tsx**: Implement a text input with a floating label effect and focus animations on the border/label. \n- **Modal.tsx**: A dialog component with a backdrop blur effect (`backdrop-blur-sm`) and a scale/fade-in animation. \n- **Other Components**: Develop Tooltip, Toast, Spinners, and Progress indicators using `lucide-react` for icons.",
+        "testStrategy": "Use Storybook or a dedicated test page to render and test each component in isolation. Verify all variants and states (hover, focus, disabled). Check for accessibility compliance (keyboard navigation, ARIA attributes). Test responsiveness on different screen sizes.",
+        "priority": "high",
+        "dependencies": [
+          "1"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2025-11-02T18:13:47.881Z"
+      },
+      {
+        "id": "3",
+        "title": "Implement Sticky Header and Animated Footer",
+        "description": "Build the main layout components, including a sticky navigation header with smooth-scrolling links and an animated footer with social media icons.",
+        "details": "1. **Header**: Create `/apps/web/src/components/layout/Header.tsx`. Make it sticky to the top. Implement a smooth scroll to section IDs. Use `useInView` or a scroll listener to highlight the active section link. For mobile, create a hamburger menu that triggers a slide-out navigation pane using Framer Motion's `AnimatePresence`. \n2. **Footer**: Create `/apps/web/src/components/layout/Footer.tsx`. Add animated links (underline effect on hover) and social media icons from `lucide-react` that scale or glow on hover. \n3. **Layout Integration**: Update the main layout file (`/apps/web/src/app/layout.tsx`) to include the new Header and Footer components.",
+        "testStrategy": "Verify the header remains fixed at the top on scroll. Test smooth scrolling to all sections on the homepage. Confirm the active link highlighting works correctly. Test the mobile hamburger menu animation and functionality on various device widths. Check footer link animations.",
+        "priority": "high",
+        "dependencies": [
+          "2"
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Basic Sticky Header Component Structure",
+            "description": "Develop the initial file and structure for the `Header.tsx` component, including basic navigation links. Implement sticky positioning to ensure it remains fixed at the top of the viewport during scroll.",
+            "dependencies": [],
+            "details": "Create the file at `/apps/web/src/components/layout/Header.tsx`. Use Tailwind CSS classes for styling (e.g., `sticky top-0 z-50 bg-background/80 backdrop-blur-sm`). Add a `nav` element containing a list of placeholder links that will later be used for smooth scrolling. Style using the project's design tokens.",
+            "status": "done",
+            "testStrategy": "Verify the header component renders correctly. Scroll the page to confirm the header remains fixed at the top. Check that the background blur effect works as expected.",
+            "updatedAt": "2025-11-02T18:20:24.170Z",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "Implement Mobile Hamburger Menu with Slide-Out Panel",
+            "description": "Enhance the `Header.tsx` component with a responsive hamburger menu for mobile views. The menu button will toggle a slide-out navigation panel using animations from Framer Motion.",
+            "dependencies": [
+              1
+            ],
+            "details": "Use a `useState` hook to manage the open/closed state of the mobile menu. Use Tailwind's responsive prefixes (e.g., `md:hidden`) to show the hamburger icon on mobile and the full nav on desktop. Wrap the mobile navigation panel with Framer Motion's `AnimatePresence` and use `motion` components to animate its entry and exit (e.g., slide from right).",
+            "status": "done",
+            "testStrategy": "On a small screen width, verify the hamburger menu icon is visible and the desktop navigation is hidden. Test that clicking the icon opens and closes the slide-out panel smoothly. Ensure links within the panel are clickable.",
+            "parentId": "undefined",
+            "updatedAt": "2025-11-02T18:21:29.993Z"
+          },
+          {
+            "id": 3,
+            "title": "Add Smooth Scrolling and Active Link Highlighting",
+            "description": "Implement smooth scrolling for navigation links to target specific section IDs on the page. Add a visual indicator to highlight the navigation link corresponding to the section currently in the viewport.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create a reusable component for navigation links that handles the smooth scroll logic on click. Use the `react-intersection-observer` package's `useInView` hook on each content section of the main page. Based on which section's `inView` status is true, update a shared state to apply an 'active' class (e.g., different text color or an underline) to the corresponding link in the header.",
+            "status": "done",
+            "testStrategy": "Click on each navigation link and verify it smoothly scrolls to the correct section. Scroll the page manually and confirm that the active link in the header updates correctly as different sections enter the viewport.",
+            "parentId": "undefined",
+            "updatedAt": "2025-11-02T18:22:47.807Z"
+          },
+          {
+            "id": 4,
+            "title": "Build Animated Footer Component with Social Links",
+            "description": "Create the `Footer.tsx` component, which will include animated navigation links and social media icons from `lucide-react` with hover effects.",
+            "dependencies": [],
+            "details": "Create the file at `/apps/web/src/components/layout/Footer.tsx`. Add a list of footer links and use CSS pseudo-elements (`::after`) and Tailwind's `group-hover` utilities to create an animated underline effect. Import icons (e.g., `Github`, `Twitter`, `Linkedin`) from `lucide-react` and wrap them in `motion.a` tags from Framer Motion to add a `scale` or `opacity` change on hover.",
+            "status": "done",
+            "testStrategy": "Render the footer and verify all links and icons are present. Hover over the navigation links to check for the animated underline effect. Hover over each social media icon to confirm its scale or glow animation triggers correctly.",
+            "parentId": "undefined",
+            "updatedAt": "2025-11-02T18:23:52.206Z"
+          },
+          {
+            "id": 5,
+            "title": "Integrate Header and Footer into Root Layout",
+            "description": "Update the main application layout file (`/apps/web/src/app/layout.tsx`) to include the newly created Header and Footer components, ensuring they are displayed correctly across all pages.",
+            "dependencies": [
+              1,
+              4
+            ],
+            "details": "Open `/apps/web/src/app/layout.tsx`. Import the `Header` from `~/components/layout/Header` and `Footer` from `~/components/layout/Footer`. Place the `<Header />` component inside the `<body>` tag, before the `{children}` prop. Place the `<Footer />` component after the `{children}` prop. Ensure the main content area is properly spaced to avoid overlapping with the fixed header.",
+            "status": "done",
+            "testStrategy": "Navigate to multiple pages of the application and verify that the Header and Footer components are consistently present. Check the page for any layout issues, such as content being obscured by the sticky header or footer.",
+            "parentId": "undefined",
+            "updatedAt": "2025-11-02T18:24:40.309Z"
+          }
+        ],
+        "updatedAt": "2025-11-02T18:24:40.309Z"
+      },
+      {
+        "id": "4",
+        "title": "Develop Interactive Hero Section with 3D Background",
+        "description": "Create the homepage's hero section, focusing on the 'wow factor' with a Three.js particle background, floating 3D shapes, a typewriter headline effect, and interactive CTA buttons.",
+        "details": "1. **3D Scene**: Create a component `HeroBackground.tsx` using `@react-three/fiber`. Use `@react-three/drei`'s `Stars` or a custom `Points` geometry for the particle effect. Add several `Mesh` objects with `IcosahedronGeometry` for the floating shapes, animating their position and rotation. \n2. **Typewriter Effect**: Implement a custom React hook `useTypewriter(text, speed)` that returns the animated string, or use a lightweight library. \n3. **Animated Counters**: Use `framer-motion`'s `animate` function to animate numbers from 0 to a target value, triggered by `react-intersection-observer`. \n4. **CTA Buttons**: Use the `Button` component from the core library (Task 2) with `glow` and `ripple` effects enabled. Implement a loading state for the button.",
+        "testStrategy": "Test the hero section on various devices and browsers to ensure 3D animation performance is smooth (aim for 60fps). Verify the typewriter effect plays correctly. Check that the counters animate into view. Test the CTA button's hover, click, and loading states.",
+        "priority": "high",
+        "dependencies": [
+          "3"
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create 3D Particle and Shape Background Component",
+            "description": "Develop the `HeroBackground.tsx` component using @react-three/fiber to render the animated 3D background. This includes a particle field and floating geometric shapes.",
+            "dependencies": [],
+            "details": "Create a new component at `apps/web/src/components/three/HeroBackground.tsx`. Inside a Canvas, use `@react-three/drei`'s `Stars` component for the particle effect. Add several `Mesh` elements with `IcosahedronGeometry` and `MeshStandardMaterial`. Use the `useFrame` hook to animate the rotation and position of the shapes to create a floating effect.",
+            "status": "done",
+            "testStrategy": "Render the component in isolation on a test page. Verify that the stars are visible and the shapes are animating smoothly. Check performance to ensure it maintains a high frame rate.",
+            "updatedAt": "2025-11-02T18:34:41.373Z",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "Implement `useTypewriter` Custom Hook",
+            "description": "Create a custom React hook `useTypewriter` that animates a string of text, returning the updated text at a specified interval.",
+            "dependencies": [],
+            "details": "Create a new file `apps/web/srcs/hooks/useTypewriter.ts`. The hook should accept a string and a typing speed (ms) as arguments. It will use `useState` and `useEffect` with `setTimeout` to incrementally build the string and return the current state. Ensure the hook has a cleanup function to clear the timeout.",
+            "status": "done",
+            "testStrategy": "Test the hook in a simple component to verify it types out the full provided text correctly and at the expected speed. Check that the animation restarts if the input text changes.",
+            "parentId": "undefined",
+            "updatedAt": "2025-11-02T18:35:31.624Z"
+          },
+          {
+            "id": 3,
+            "title": "Build the Main Hero Section Layout Component",
+            "description": "Create the main `Hero.tsx` component that will serve as the container for the hero section, structuring the layout and integrating the 3D background.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create `apps/web/src/components/sections/Hero.tsx`. This component will have a full-height container. It will render the `HeroBackground` component with `position: absolute` and `z-index: -1`. It will also define the main content area using a centered Flexbox or Grid layout to prepare for the text and buttons.",
+            "status": "done",
+            "testStrategy": "Render the `Hero` component on the homepage (`apps/web/src/app/page.tsx`). Verify that the 3D background is correctly displayed behind the content area and that the layout is responsive.",
+            "parentId": "undefined",
+            "updatedAt": "2025-11-02T18:36:11.651Z"
+          },
+          {
+            "id": 4,
+            "title": "Integrate Typewriter Headline and Interactive CTA Buttons",
+            "description": "Add the main headline using the `useTypewriter` hook and the Call-to-Action buttons using the core UI library's `Button` component.",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "In `Hero.tsx`, call the `useTypewriter` hook to animate the H1 headline text. Below the headline, add a paragraph for the sub-headline. Import the `Button` component from `apps/web/src/components/ui/button.tsx` and add two instances. Use the appropriate variants (e.g., 'gradient', 'neon') as defined in the design system and Task 2. Implement hover/glow effects and a loading state.",
+            "status": "done",
+            "testStrategy": "Verify the headline animates correctly on page load. Test the CTA buttons' hover, active, and focus states. Ensure the glow and ripple effects are present. Trigger a mock loading state on click to test its visual appearance.",
+            "parentId": "undefined",
+            "updatedAt": "2025-11-02T18:37:28.694Z"
+          },
+          {
+            "id": 5,
+            "title": "Develop and Integrate Animated Counters Component",
+            "description": "Create a component for animated statistic counters that animate from zero to a target number when they scroll into view.",
+            "dependencies": [
+              3
+            ],
+            "details": "Create a component `AnimatedCounters.tsx` in `apps/web/src/components/sections/`. Use `react-intersection-observer`'s `useInView` hook to trigger the animation. Use `framer-motion`'s `animate` function to tween the numbers. The component should accept an array of objects, each with a label and a target value. Integrate this component into the `Hero.tsx` layout.",
+            "status": "done",
+            "testStrategy": "Place the component in the hero section. Scroll down and back up to ensure the animation triggers only when the component is in the viewport. Verify the numbers animate smoothly to their final target values.",
+            "parentId": "undefined",
+            "updatedAt": "2025-11-02T18:39:17.898Z"
+          }
+        ],
+        "updatedAt": "2025-11-02T18:39:17.898Z"
+      },
+      {
+        "id": "5",
+        "title": "Build Advanced Scroll-Based Animations and Page Transitions",
+        "description": "Integrate a smooth scrolling library (Lenis) and implement various scroll-triggered animations like parallax, reveals, and staggers. Set up global page transitions for a seamless user experience.",
+        "details": "1. **Smooth Scrolling**: Integrate `lenis` by wrapping the main app layout. Create a React context to provide the Lenis instance throughout the app for programmatic scrolling if needed. \n2. **Scroll-Triggered Animations**: Use `react-intersection-observer`'s `useInView` hook to trigger Framer Motion animations as elements enter the viewport. Apply this to sections, lists, and individual components. For list items, use Framer Motion's `staggerChildren` prop on the parent container. \n3. **Page Transitions**: In the root `layout.tsx`, wrap the `{children}` prop with Framer Motion's `<AnimatePresence mode='wait'>`. On each page component's root element, add a `<motion.div>` with `initial`, `animate`, and `exit` props to define slide, fade, or scale transitions.",
+        "testStrategy": "Verify smooth scrolling is active on all pages. Scroll up and down the homepage to confirm that elements animate into view correctly and without jank. Navigate between different pages to test that the enter and exit animations are smooth and consistent. Check for performance issues, especially on lower-end devices.",
+        "priority": "medium",
+        "dependencies": [
+          "3"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2025-11-02T19:25:02.181Z"
+      },
+      {
+        "id": "6",
+        "title": "Construct Services and Case Studies Sections",
+        "description": "Develop the 'Services' and 'Case Studies' sections for the homepage, featuring interactive cards with 3D tilt effects, filtering, and a lightbox gallery.",
+        "details": "1. **Services Section**: Create service cards with a 3D tilt effect on hover using Framer Motion's `useMotionValue` and `useTransform` hooks to map mouse position to `rotateX` and `rotateY`. Implement a filter system using `useState` to manage the active category and Framer Motion's `AnimatePresence` to animate items in and out. \n2. **Case Studies Section**: Build interactive cards that use a flip animation (`rotateY: 180`) on hover to reveal details. Integrate a 'Before/After' slider component. Clicking a card should open a modal-based lightbox gallery for images.",
+        "testStrategy": "Test the 3D tilt effect on service cards for smoothness. Verify the service filtering works and animations are correct. For case studies, check the flip animation and ensure the lightbox gallery is fully functional (opens, closes, navigates).",
+        "priority": "medium",
+        "dependencies": [
+          "4",
+          "5"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": "7",
+        "title": "Create Testimonials Section with 3D Carousel",
+        "description": "Build the testimonials section featuring a 3D rotating carousel for cards, support for video testimonials, and an auto-scrolling customer logo marquee.",
+        "details": "1. **3D Carousel**: Implement a carousel where cards are positioned in 3D space. This can be achieved with a library like `embla-carousel-react` combined with CSS transforms, or a custom implementation using Framer Motion's `useTransform` on a scroll progress value to rotate the carousel. Add touch/swipe support and autoplay functionality that pauses on hover. \n2. **Video Testimonials**: Integrate a simple video player within a card, potentially opening the video in the main modal component on click. \n3. **Logo Marquee**: Create a component that infinitely scrolls a list of customer logos using a CSS animation on the `transform: translateX` property.",
+        "testStrategy": "Test the 3D carousel on desktop (mouse drag) and mobile (touch swipe). Verify autoplay and pause-on-hover functionality. Ensure video testimonials can be played. Check that the logo marquee is a seamless, continuous loop.",
+        "priority": "medium",
+        "dependencies": [
+          "4",
+          "5"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": "8",
+        "title": "Develop Content Page Templates and Components",
+        "description": "Create templates and specialized components for the secondary content pages, including Services Detail, Case Study Detail, and the About page.",
+        "details": "1. **Services Detail Page**: Build an animated FAQ accordion using Framer Motion's `AnimatePresence`. Create a 'Process Timeline' component with scroll-triggered animations for each step. Design a responsive pricing table with hover effects on each tier. \n2. **Case Study Detail Page**: Implement a hero section with a video background option and animated project stat counters. \n3. **About Page**: Create a team grid with individual member cards that reveal bios on hover. Build a 'Company Story' component that animates paragraphs and milestones into view on scroll.",
+        "testStrategy": "Create dynamic routes (e.g., `/services/[slug]`) and test that each template renders correctly with mock data. Verify all interactive components on these pages (accordion, timeline animations, hover effects) work as expected. Ensure pages are responsive.",
+        "priority": "medium",
+        "dependencies": [
+          "3"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2025-11-02T19:35:46.357Z"
+      },
+      {
+        "id": "9",
+        "title": "Build Multi-Step Contact Form and Live Chat",
+        "description": "Implement the primary conversion tools: a multi-step contact form with real-time validation and a floating live chat widget.",
+        "details": "1. **Multi-Step Form**: Use `react-hook-form` for state management and validation. Create a parent component to manage the current step (`useState`). Use Framer Motion's `AnimatePresence` to create smooth slide transitions between steps. For each field, provide real-time validation feedback with animated error/success states. On successful submission, route the user to an animated 'Thank You' page. \n2. **Live Chat**: Implement a floating action button with a pulse animation to draw attention. On click, a chat window slides in from the bottom/side. This can be a placeholder UI initially, with integration for a third-party service (like Intercom or Crisp) to follow.",
+        "testStrategy": "Test the form end-to-end. Try submitting with invalid data to check all validation messages. Ensure step transitions are smooth. Verify successful submission redirects to the correct page. Test the live chat button's animations and the chat window's slide-in/out behavior.",
+        "priority": "high",
+        "dependencies": [
+          "2"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2025-11-02T19:11:38.941Z"
+      },
+      {
+        "id": "10",
+        "title": "Finalize Performance Optimization and Accessibility Audit",
+        "description": "Conduct a comprehensive review of the entire application to meet the performance (<2s load, >95 Lighthouse) and accessibility (WCAG 2.1 AA) requirements before launch.",
+        "details": "1. **Performance**: Run Lighthouse audits and address all reported issues. Ensure all images are optimized using `next/image` (which defaults to WebP). Analyze the bundle size with `@next/bundle-analyzer` and apply dynamic imports (`next/dynamic`) where needed. Set up caching policies for static assets. \n2. **Accessibility (A11y)**: Use automated tools like `axe-core` and manual testing for a full WCAG 2.1 AA audit. Ensure all interactive elements are keyboard-navigable. Add appropriate ARIA labels and roles. Check color contrast ratios. Implement a `prefers-reduced-motion` check to disable non-essential animations for users who request it.",
+        "testStrategy": "The test is the audit itself. The task is complete when Lighthouse scores for Performance, Accessibility, and SEO are all >90 (ideally >95 for Performance). Manually tab through the entire site to ensure all controls are focusable and usable. Use a screen reader (e.g., VoiceOver, NVDA) to navigate key user flows.",
+        "priority": "medium",
+        "dependencies": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9"
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "version": "1.0.0",
+      "lastModified": "2025-11-02T19:35:46.358Z",
+      "taskCount": 10,
+      "completedCount": 7,
+      "tags": [
+        "master"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Build container image
+        run: |
+          docker build -t status-service:latest status-service
+      - name: Placeholder deploy step
+        run: echo "Integrate with your deployment platform here (e.g., push to registry)"

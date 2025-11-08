@@ -1,0 +1,11 @@
+{
+  "name": "@tb/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./eslint": "./src/eslint.cjs",
+    "./tsconfig": "./src/tsconfig.json",
+    "./vitest": "./vitest.config.ts"
+  }
+}

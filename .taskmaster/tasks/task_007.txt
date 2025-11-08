@@ -1,0 +1,13 @@
+# Task ID: 7
+# Title: Create Testimonials Section with 3D Carousel
+# Status: pending
+# Dependencies: 4, 5
+# Priority: medium
+# Description: Build the testimonials section featuring a 3D rotating carousel for cards, support for video testimonials, and an auto-scrolling customer logo marquee.
+# Details:
+1. **3D Carousel**: Implement a carousel where cards are positioned in 3D space. This can be achieved with a library like `embla-carousel-react` combined with CSS transforms, or a custom implementation using Framer Motion's `useTransform` on a scroll progress value to rotate the carousel. Add touch/swipe support and autoplay functionality that pauses on hover. 
+2. **Video Testimonials**: Integrate a simple video player within a card, potentially opening the video in the main modal component on click. 
+3. **Logo Marquee**: Create a component that infinitely scrolls a list of customer logos using a CSS animation on the `transform: translateX` property.
+
+# Test Strategy:
+Test the 3D carousel on desktop (mouse drag) and mobile (touch swipe). Verify autoplay and pause-on-hover functionality. Ensure video testimonials can be played. Check that the logo marquee is a seamless, continuous loop.

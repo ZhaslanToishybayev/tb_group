@@ -1,0 +1,303 @@
+/*
+ * TB Group Status Page Stylesheet
+ * Lightweight, clean styling for the public status page
+ */
+
+/* Base Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+}
+
+/* Status Indicator */
+.status-indicator {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-operational {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-partial_outage {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-major_outage {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Statistics Cards */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Incident Cards */
+h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+}
+
+.incident {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.2s ease;
+}
+
+.incident:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.incident:last-child {
+    margin-bottom: 0;
+}
+
+.incident-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.incident-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+    flex: 1;
+}
+
+.incident-description {
+    font-size: 15px;
+    color: #444;
+    margin: 15px 0;
+    line-height: 1.6;
+}
+
+.incident-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    color: #666;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.incident-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Badges */
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+/* Severity Badges */
+.severity-low {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.severity-medium {
+    background-color: #fff3e0;
+    color: #f57c00;
+}
+
+.severity-high {
+    background-color: #ffebee;
+    color: #d32f2f;
+}
+
+.severity-critical {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+}
+
+/* Status Badges */
+.status-investigating {
+    background-color: #fff3e0;
+    color: #f57c00;
+}
+
+.status-identified {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status-monitoring {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.status-resolved {
+    background-color: #f1f8e9;
+    color: #558b2f;
+}
+
+/* No Incidents Message */
+.no-incidents {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.no-incidents p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid #e0e0e0;
+    font-size: 14px;
+    color: #666;
+}
+
+.footer p {
+    margin: 5px 0;
+}
+
+/* Timestamp */
+.timestamp {
+    font-size: 13px;
+    color: #888;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .incident {
+        padding: 15px;
+    }
+
+    .incident-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .incident-meta {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .stat-number {
+        font-size: 24px;
+    }
+
+    .incident-title {
+        font-size: 16px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+
+    .incident,
+    .stat-card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+
+    .footer {
+        border-top: 1px solid #ccc;
+    }
+}

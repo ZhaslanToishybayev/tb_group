@@ -1,0 +1,4 @@
+# Lock file instructions
+# Due to network issues during generation, the lock file needs to be created manually
+# Run: pnpm install (after network access is restored)
+# This will generate pnpm-lock.yaml

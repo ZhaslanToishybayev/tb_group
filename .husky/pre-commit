@@ -1,0 +1,70 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Color codes for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+echo -e "${YELLOW}🔍 Running pre-commit checks...${NC}\n"
+
+# Exit on any error
+set -e
+
+# Function to print status
+print_status() {
+  if [ $? -eq 0 ]; then
+    echo -e "${GREEN}✅ $1${NC}"
+  else
+    echo -e "${RED}❌ $1${NC}"
+    exit 1
+  fi
+}
+
+# Check if we have any staged files
+if [ -z "$(git diff --cached --name-only)" ]; then
+  echo -e "${GREEN}ℹ️  No staged files to check${NC}"
+  exit 0
+fi
+
+# 1. Run lint-staged (formatting, linting, and basic type check)
+echo -e "${YELLOW}📝 Running lint-staged (formatting & linting)...${NC}"
+npx lint-staged
+print_status "lint-staged completed"
+
+# 2. Type check all TypeScript files
+echo -e "${YELLOW}🔎 Type checking...${NC}"
+npx tsc --noEmit
+print_status "Type check passed"
+
+# 3. Run tests (only in status-service for now)
+if [ -f "status-service/package.json" ]; then
+  echo -e "${YELLOW}🧪 Running tests...${NC}"
+  cd status-service
+  npm test -- --run
+  cd ..
+  print_status "Tests passed"
+fi
+
+# 4. Run security audit
+echo -e "${YELLOW}🔒 Running security audit...${NC}"
+npm audit --audit-level=moderate
+print_status "Security audit passed"
+
+# 5. Task Master integration (check if task-master is installed and validate task status)
+if command -v task-master &> /dev/null; then
+  echo -e "${YELLOW}📋 Checking Task Master task status...${NC}"
+
+  # Validate dependencies
+  task-master validate-dependencies 2>/dev/null || true
+
+  print_status "Task Master validation completed"
+else
+  echo -e "${YELLOW}ℹ️  Task Master not found, skipping task validation${NC}"
+fi
+
+echo -e "\n${GREEN}🎉 All pre-commit checks passed!${NC}"
+echo -e "${GREEN}Ready to commit!${NC}"
+
+exit 0

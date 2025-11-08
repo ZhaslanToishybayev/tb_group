@@ -1,0 +1,14 @@
+# Task ID: 4
+# Title: Develop Interactive Hero Section with 3D Background
+# Status: pending
+# Dependencies: 3
+# Priority: high
+# Description: Create the homepage's hero section, focusing on the 'wow factor' with a Three.js particle background, floating 3D shapes, a typewriter headline effect, and interactive CTA buttons.
+# Details:
+1. **3D Scene**: Create a component `HeroBackground.tsx` using `@react-three/fiber`. Use `@react-three/drei`'s `Stars` or a custom `Points` geometry for the particle effect. Add several `Mesh` objects with `IcosahedronGeometry` for the floating shapes, animating their position and rotation. 
+2. **Typewriter Effect**: Implement a custom React hook `useTypewriter(text, speed)` that returns the animated string, or use a lightweight library. 
+3. **Animated Counters**: Use `framer-motion`'s `animate` function to animate numbers from 0 to a target value, triggered by `react-intersection-observer`. 
+4. **CTA Buttons**: Use the `Button` component from the core library (Task 2) with `glow` and `ripple` effects enabled. Implement a loading state for the button.
+
+# Test Strategy:
+Test the hero section on various devices and browsers to ensure 3D animation performance is smooth (aim for 60fps). Verify the typewriter effect plays correctly. Check that the counters animate into view. Test the CTA button's hover, click, and loading states.

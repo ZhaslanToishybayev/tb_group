@@ -1,0 +1,13 @@
+# Task ID: 5
+# Title: Build Advanced Scroll-Based Animations and Page Transitions
+# Status: pending
+# Dependencies: 3
+# Priority: medium
+# Description: Integrate a smooth scrolling library (Lenis) and implement various scroll-triggered animations like parallax, reveals, and staggers. Set up global page transitions for a seamless user experience.
+# Details:
+1. **Smooth Scrolling**: Integrate `lenis` by wrapping the main app layout. Create a React context to provide the Lenis instance throughout the app for programmatic scrolling if needed. 
+2. **Scroll-Triggered Animations**: Use `react-intersection-observer`'s `useInView` hook to trigger Framer Motion animations as elements enter the viewport. Apply this to sections, lists, and individual components. For list items, use Framer Motion's `staggerChildren` prop on the parent container. 
+3. **Page Transitions**: In the root `layout.tsx`, wrap the `{children}` prop with Framer Motion's `<AnimatePresence mode='wait'>`. On each page component's root element, add a `<motion.div>` with `initial`, `animate`, and `exit` props to define slide, fade, or scale transitions.
+
+# Test Strategy:
+Verify smooth scrolling is active on all pages. Scroll up and down the homepage to confirm that elements animate into view correctly and without jank. Navigate between different pages to test that the enter and exit animations are smooth and consistent. Check for performance issues, especially on lower-end devices.

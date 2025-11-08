@@ -1,0 +1,267 @@
+openapi: 3.1.0
+info:
+  title: TB Group API
+  version: 0.0.1
+servers:
+  - url: http://localhost:4000
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: API and database are reachable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+        '500':
+          description: Database or service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  error:
+                    type: string
+  /api/auth/login:
+    post:
+      summary: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Tokens issued
+        '401':
+          description: Invalid credentials
+  /api/auth/refresh:
+    post:
+      summary: Refresh tokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: New tokens issued
+        '401':
+          description: Invalid refresh token
+  /api/auth/logout:
+    post:
+      summary: Revoke refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '204':
+          description: Token revoked
+  /api/services:
+    get:
+      summary: List services
+      responses:
+        '200':
+          description: List of services
+    post:
+      summary: Create service
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Service created
+  /api/services/{idOrSlug}:
+    get:
+      summary: Get service by id or slug
+      responses:
+        '200': { description: Service } 
+        '404': { description: Not found }
+    put:
+      summary: Update service
+      security:
+        - bearerAuth: []
+      responses:
+        '200': { description: Updated }
+        '404': { description: Not found }
+    delete:
+      summary: Delete service
+      security:
+        - bearerAuth: []
+      responses:
+        '204': { description: Deleted }
+  /api/cases:
+    get:
+      summary: List cases
+      responses:
+        '200': { description: List of cases }
+    post:
+      summary: Create case
+      security:
+        - bearerAuth: []
+      responses:
+        '201': { description: Case created }
+  /api/cases/{idOrSlug}:
+    get:
+      summary: Get case by id or slug
+      responses:
+        '200': { description: Case }
+        '404': { description: Not found }
+    put:
+      summary: Update case
+      security:
+        - bearerAuth: []
+      responses:
+        '200': { description: Case updated }
+        '404': { description: Not found }
+    delete:
+      summary: Delete case
+      security:
+        - bearerAuth: []
+      responses:
+        '204': { description: Deleted }
+  /api/reviews:
+    get:
+      summary: List reviews
+      responses:
+        '200': { description: Reviews }
+    post:
+      summary: Create review
+      security:
+        - bearerAuth: []
+      responses:
+        '201': { description: Review created }
+  /api/reviews/{id}:
+    get:
+      summary: Get review
+      responses:
+        '200': { description: Review }
+        '404': { description: Not found }
+    put:
+      summary: Update review
+      security:
+        - bearerAuth: []
+      responses:
+        '200': { description: Review updated }
+        '404': { description: Not found }
+    delete:
+      summary: Delete review
+      security:
+        - bearerAuth: []
+      responses:
+        '204': { description: Deleted }
+  /api/banners:
+    get:
+      summary: List banners
+      responses:
+        '200': { description: Banners }
+    post:
+      summary: Create banner
+      security:
+        - bearerAuth: []
+      responses:
+        '201': { description: Banner created }
+  /api/banners/{id}:
+    get:
+      summary: Get banner
+      responses:
+        '200': { description: Banner }
+        '404': { description: Not found }
+    put:
+      summary: Update banner
+      security:
+        - bearerAuth: []
+      responses:
+        '200': { description: Banner updated }
+        '404': { description: Not found }
+    delete:
+      summary: Delete banner
+      security:
+        - bearerAuth: []
+      responses:
+        '204': { description: Deleted }
+  /api/settings:
+    get:
+      summary: List settings
+      responses:
+        '200': { description: Settings }
+  /api/settings/{key}:
+    get:
+      summary: Get setting
+      responses:
+        '200': { description: Setting }
+        '404': { description: Not found }
+    put:
+      summary: Upsert setting
+      security:
+        - bearerAuth: []
+      responses:
+        '200': { description: Setting updated }
+    delete:
+      summary: Delete setting
+      security:
+        - bearerAuth: []
+      responses:
+        '204': { description: Deleted }
+  /api/media:
+    get:
+      summary: List media assets
+      responses:
+        '200': { description: Media list }
+    post:
+      summary: Create media asset
+      security:
+        - bearerAuth: []
+      responses:
+        '201': { description: Media created }
+  /api/media/{id}:
+    get:
+      summary: Get media asset
+      responses:
+        '200': { description: Media }
+        '404': { description: Not found }
+    put:
+      summary: Update media asset
+      security:
+        - bearerAuth: []
+      responses:
+        '200': { description: Media updated }
+        '404': { description: Not found }
+    delete:
+      summary: Delete media asset
+      security:
+        - bearerAuth: []
+      responses:
+        '204': { description: Deleted }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

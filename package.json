@@ -1,0 +1,59 @@
+{
+  "name": "tb-group-base-stack",
+  "version": "1.0.0",
+  "description": "TB Group corporate website with unified toolchain",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "spec-kit",
+    "taskmaster"
+  ],
+  "scripts": {
+    "dev": "pnpm dev --workspaces",
+    "build": "pnpm build --workspaces",
+    "test": "pnpm test --workspaces",
+    "lint": "pnpm lint --workspaces",
+    "type-check": "pnpm type-check --workspaces",
+    "clean": "pnpm clean --workspaces",
+    "package": "bash scripts/package-project.sh",
+    "setup": "bash scripts/setup-project.sh",
+    "start:api": "pnpm dev --workspace @tb/api",
+    "start:web": "pnpm dev --workspace @tb/web",
+    "start:admin": "pnpm dev --workspace @tb/admin",
+    "docker:up": "docker-compose -f docker-compose.db.yml up -d",
+    "docker:down": "docker-compose -f docker-compose.db.yml down",
+    "coverage": "pnpm test --workspace @tb/status-service -- --coverage",
+    "coverage:check": "node scripts/check-coverage.js",
+    "coverage:report": "pnpm test --workspace @tb/status-service -- --coverage --reporter=html",
+    "test:ci": "pnpm test --workspaces --run --coverage && pnpm coverage:check",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "typescript": "^5.6.3",
+    "eslint": "^9.16.0",
+    "prettier": "^3.5.3",
+    "turbo": "^2.5.6",
+    "typescript-eslint": "^8.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.3.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ],
+    "*.{ts,tsx}": [
+      "tsc --noEmit"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.0.0"
+}

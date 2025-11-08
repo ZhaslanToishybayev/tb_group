@@ -1,0 +1,185 @@
+# TB Group Base Stack - Phase 5-6 Implementation PRD
+
+## Project Overview
+Complete the TB Group corporate website by implementing Phase 5 (Integrations & Operations) and Phase 6 (QA & Deployment). The project foundation (Phases 0-4) is complete with working API, Next.js frontend, React admin panel, and core functionality.
+
+## Current Status
+- ✅ Phase 0-4 completed: Architecture, setup, domain models, public website, admin panel
+- ⚡ Ready for Phase 5-6: Integrations, testing, deployment, and documentation
+- 🏗️ Monorepo structure with Express API, Next.js frontend, React admin, PostgreSQL database
+- 🤖 Full AI toolchain ready: Task Master, Spec Kit, GLM 4.6, Claude Code
+
+## Core Features - Phase 5: Integrations & Operations
+
+### Feature 1: Bitrix24 Integration (T050)
+**Purpose**: Integrate with Bitrix24 CRM to automatically create leads when users submit contact forms or requests.
+
+**Requirements**:
+- Implement Bitrix24 API client for lead creation
+- Configure webhook endpoints for real-time lead data
+- Add Bitrix24 contact form integration to existing contact API
+- Implement error handling and fallback mechanisms
+- Add admin panel controls for Bitrix24 settings and mapping
+- Test lead creation with various form types (contact, service requests, consultations)
+
+**Success Criteria**:
+- All contact form submissions automatically create leads in Bitrix24
+- Admin can configure Bitrix24 settings through admin panel
+- Robust error handling ensures no lead data is lost
+- Integration supports custom field mapping and lead scoring
+
+### Feature 2: Email Notification System (T051)
+**Purpose**: Implement comprehensive email notification system with NodeMailer and fallback mechanisms.
+
+**Requirements**:
+- Set up NodeMailer with multiple SMTP providers
+- Implement email templates for various notifications (contact requests, new inquiries, admin alerts)
+- Add fallback email delivery mechanisms (secondary SMTP, service backup)
+- Create email queue system for reliable delivery
+- Implement email tracking and delivery status monitoring
+- Add admin panel for email template management and delivery settings
+
+**Success Criteria**:
+- All important system events trigger appropriate email notifications
+- Email delivery is reliable with backup mechanisms
+- Admin can customize email templates and delivery settings
+- System handles email failures gracefully with proper logging
+
+### Feature 3: Analytics Integration (T052)
+**Purpose**: Integrate Google Analytics and Yandex Metrics for comprehensive website analytics.
+
+**Requirements**:
+- Implement Google Analytics 4 with event tracking
+- Add Yandex Metrics with goal tracking
+- Create custom events for user interactions (form submissions, page views, button clicks)
+- Implement e-commerce tracking for service inquiries
+- Add privacy compliance (cookie consent, GDPR considerations)
+- Create analytics dashboard in admin panel
+
+**Success Criteria**:
+- All user interactions are properly tracked in both analytics systems
+- Analytics data is accurate and provides actionable insights
+- System complies with privacy regulations
+- Admin can monitor key metrics through dashboard
+
+### Feature 4: Database Backups and Caching (T053)
+**Purpose**: Implement automated database backups and caching system for performance and reliability.
+
+**Requirements**:
+- Set up automated PostgreSQL database backups (daily, weekly, monthly)
+- Implement Redis caching for frequently accessed data
+- Add HTTP caching headers and CDN integration
+- Create backup restoration procedures
+- Implement caching invalidation strategies
+- Add monitoring for backup success and cache performance
+
+**Success Criteria**:
+- Database is automatically backed up with verifiable restoration process
+- Website performance improves significantly with caching
+- System can handle increased traffic without degradation
+- Admin has visibility into backup and caching metrics
+
+## Core Features - Phase 6: QA & Deployment
+
+### Feature 5: Comprehensive Testing (T060)
+**Purpose**: Implement complete testing suite with unit, integration, and e2e tests.
+
+**Requirements**:
+- Write unit tests for all API endpoints and business logic
+- Create integration tests for database operations and third-party integrations
+- Implement e2e tests for critical user journeys (contact forms, service inquiries, admin workflows)
+- Add performance testing for API response times and database queries
+- Implement accessibility testing (A11y) for WCAG compliance
+- Create automated test execution in CI/CD pipeline
+
+**Success Criteria**:
+- Test coverage exceeds 80% for critical business logic
+- All tests pass consistently in CI/CD pipeline
+- Performance meets benchmarks (API responses <200ms, page loads <3s)
+- Website is fully accessible and compliant with WCAG 2.1 AA
+
+### Feature 6: CI/CD and Deployment (T061)
+**Purpose**: Set up continuous integration, continuous deployment, and production infrastructure.
+
+**Requirements**:
+- Configure GitHub Actions CI/CD pipeline with automated testing and deployment
+- Set up Docker containerization for all services
+- Configure Nginx reverse proxy with SSL/TLS certificates
+- Implement staging environment for pre-production testing
+- Add automated database migrations and rollback procedures
+- Set up monitoring, logging, and alerting systems
+
+**Success Criteria**:
+- Code deployments are automated and zero-downtime
+- All environments are properly containerized and scalable
+- System can automatically recover from failures
+- Monitoring provides real-time visibility into system health
+
+### Feature 7: Documentation and Handover (T062)
+**Purpose**: Create comprehensive documentation for maintenance, operations, and future development.
+
+**Requirements**:
+- Write complete API documentation with OpenAPI/Swagger specifications
+- Create admin user guide with screenshots and tutorials
+- Document DevOps procedures (deployment, backup restoration, troubleshooting)
+- Create developer onboarding guide and coding standards
+- Document system architecture and decision records (ADR)
+- Create security guidelines and compliance documentation
+
+**Success Criteria**:
+- All documentation is complete, accurate, and easily accessible
+- New team members can onboard and become productive within 1 week
+- System can be maintained and deployed by following documented procedures
+- Documentation is kept up-to-date with system changes
+
+## Technical Architecture
+
+### System Components
+- **Frontend**: Next.js 14 with TypeScript, Tailwind CSS, React components
+- **Backend**: Express.js API with Prisma ORM, PostgreSQL database
+- **Admin Panel**: React SPA with Vite, TypeScript, comprehensive CRUD interfaces
+- **Infrastructure**: Docker containers, Nginx proxy, automated CI/CD
+- **Monitoring**: Application logs, performance metrics, error tracking
+- **Analytics**: Google Analytics 4, Yandex Metrics integration
+
+### Implementation Approach
+- **Spec-Driven Development**: Use Spec Kit for structured development workflow
+- **AI-Powered**: Leverage Task Master for task management, GLM 4.6 for assistance
+- **Test-First**: TDD approach with comprehensive test coverage
+- **Infrastructure as Code**: Automated deployment and configuration management
+- **Security First**: Implement security best practices throughout development
+
+## Dependencies and Logical Order
+
+### Phase 5 Dependencies
+1. **T051 (Email System)** → Foundation for T050 (Bitrix24 notifications)
+2. **T053 (Caching)** → Improves performance for all integrations
+3. **T052 (Analytics)** → Independent, can be parallel
+4. **T050 (Bitrix24)** → Depends on email system for confirmations
+
+### Phase 6 Dependencies
+1. **T060 (Testing)** → Must be completed before production deployment
+2. **T061 (CI/CD)** → Depends on comprehensive tests
+3. **T062 (Documentation)** → Can be parallel with T061
+
+### Critical Path
+1. Email notification system (foundation for other integrations)
+2. Bitrix24 integration (core business requirement)
+3. Comprehensive testing (deployment prerequisite)
+4. CI/CD and production deployment
+5. Documentation and handover
+
+## Success Metrics
+- **Reliability**: 99.9% uptime with automated backups and monitoring
+- **Performance**: Page load times under 3 seconds, API responses under 200ms
+- **Quality**: 80%+ test coverage with all critical paths tested
+- **Security**: Zero critical vulnerabilities, regular security updates
+- **Maintainability**: New developer onboarding within 1 week
+
+## Risks and Mitigations
+- **Third-party API failures**: Implement robust error handling and fallback mechanisms
+- **Performance bottlenecks**: Comprehensive caching and monitoring systems
+- **Security vulnerabilities**: Regular security audits and automated scanning
+- **Data loss**: Automated backups with tested restoration procedures
+
+This implementation plan focuses on delivering a production-ready corporate website with enterprise-grade reliability, performance, and maintainability.
