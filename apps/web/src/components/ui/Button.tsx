@@ -103,7 +103,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       rightIconClassName = '',
       children,
       disabled,
-      ...props
+      onAnimationStart,
+      onAnimationEnd,
+      onAnimationIteration,
+      onDragStart,
+      onDrag,
+      onDragEnd,
+      onMouseEnter,
+      onMouseLeave,
+      onTouchStart,
+      onTouchEnd,
+      ...restProps
     },
     ref
   ) => {
@@ -127,7 +137,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         setRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
       }, 600);
 
-      props.onClick?.(e);
+      restProps.onClick?.(e);
     };
 
     return (
@@ -139,7 +149,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         whileHover="hover"
         whileTap="tap"
         variants={buttonHover}
-        {...props}
+        {...restProps}
       >
         {/* Ripple effects */}
         {ripples.map((ripple) => (

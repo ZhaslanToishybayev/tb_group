@@ -16,7 +16,7 @@ interface AnimatedCountersProps {
   className?: string;
 }
 
-export default function AnimatedCounters({ data, className = '' }: AnimatedCountersProps) {
+export function AnimatedCounters({ data, className = '' }: AnimatedCountersProps) {
   return (
     <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 ${className}`}>
       {data.map((item, index) => (

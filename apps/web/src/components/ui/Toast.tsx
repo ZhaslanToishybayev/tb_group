@@ -212,7 +212,6 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children, position
       props: {
         ...props,
         onClose: () => {
-          props.onClose?.();
           setToasts((prev) => prev.filter((toast) => toast.id !== id));
         },
       },

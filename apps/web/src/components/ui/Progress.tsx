@@ -64,7 +64,7 @@ const progressBarVariants = cva(
 export interface ProgressProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof progressVariants>,
-    VariantProps<typeof progressBarVariants> {
+    Omit<VariantProps<typeof progressBarVariants>, 'variant' | 'animated'> {
   value: number;
   max?: number;
   label?: string;
@@ -89,7 +89,7 @@ export const Progress: React.FC<ProgressProps> = ({
 
   const progressBar = (
     <motion.div
-      className={progressBarVariants({ variant, animated })}
+      className={progressBarVariants({ variant, animated: animated ? 'pulse' : 'none' })}
       style={{ width: `${percentage}%` }}
       initial={{ width: 0 }}
       animate={{ width: `${percentage}%` }}

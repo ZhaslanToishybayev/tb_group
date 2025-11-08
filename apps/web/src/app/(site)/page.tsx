@@ -2,27 +2,21 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import {
-  HeroPromo,
   AdvantagesSection,
   ClientLogosMarquee,
   CTASection,
   type Advantage,
   type ClientLogo,
 } from '../../components/home';
-import Hero from '../../components/sections/Hero';
+import { Hero } from '../../components/sections/Hero';
 import {
   ServicesSection,
-  CaseStudiesSection,
   TestimonialsSection,
 } from '../../components/sections';
 import {
   getServices,
-  getCases,
   getReviews,
-  getBanners,
   getSettings,
-  type Case,
-  type CaseListResult,
 } from '../../lib/api';
 
 export const metadata: Metadata = {
@@ -71,32 +65,26 @@ const parseSettingArray = <T,>(value: unknown, fallback: T[]): T[] => {
 };
 
 export default async function HomePage() {
-  const [services, casesResult, reviews, banners, settings] = await Promise.all([
+  const [services, reviews, settings] = await Promise.all([
     getServices().catch(() => []),
-    getCases({}).catch<CaseListResult>(() => ({ items: [], nextCursor: null })),
     getReviews({ isFeatured: true }).catch(() => []),
-    getBanners().catch(() => []),
     getSettings().catch(() => []),
   ]);
 
-  const heroBanner = banners.find((banner) => banner.placement === 'HOME_HERO');
   const advantagesSetting = settings.find((setting) => setting.key === 'HOMEPAGE_ADVANTAGES')?.value;
   const logosSetting = settings.find((setting) => setting.key === 'HOMEPAGE_CLIENT_LOGOS')?.value;
 
   const advantages = parseSettingArray<Advantage>(advantagesSetting, defaultAdvantages);
   const logos = parseSettingArray<ClientLogo>(logosSetting, defaultClientLogos);
-  const highlightedCases = casesResult.items.slice(0, 3);
 
   return (
     <>
       <div id="main-content">
-        <HeroPromo banner={heroBanner} />
+        <Hero />
 
         <ServicesSection services={services} />
 
         <AdvantagesSection advantages={advantages} />
-
-        <CaseStudiesSection caseStudies={highlightedCases} />
 
         <ClientLogosMarquee logos={logos} />
 

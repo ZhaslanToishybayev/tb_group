@@ -2,7 +2,7 @@
 // Simple className utility (could use clsx or class-variance-authority in real project)
 
 // Utility for combining class names
-export function cn(...inputs: ClassValue[]) {
+export function cn(...inputs: any[]) {
   // This is a simple implementation - in a real project, you'd use clsx
   return inputs.filter(Boolean).join(' ');
 }
@@ -178,8 +178,8 @@ export const glows = {
   // Primary glow
   primary: 'shadow-glow',
 
-  // Purple glow
-  purple: 'shadow-glow-purple',
+  // Violet glow
+  violet: 'shadow-glow-purple',
 
   // Neon glow
   neon: 'shadow-[0_0_20px_rgba(0,245,255,0.5)]',

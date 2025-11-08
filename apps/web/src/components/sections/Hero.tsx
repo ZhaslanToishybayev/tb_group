@@ -5,9 +5,9 @@ import { motion } from 'framer-motion';
 import HeroBackground from '../three/HeroBackground';
 import { useTypewriter } from '../../hooks/useTypewriter';
 import { Button } from '../ui/Button';
-import AnimatedCounters from './AnimatedCounters';
+import { AnimatedCounters } from './AnimatedCounters';
 
-export default function Hero() {
+export function Hero() {
   const headline = 'Transform Your Business with Cutting-Edge Solutions';
   const { displayText, isComplete } = useTypewriter(headline, 80);
 

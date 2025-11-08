@@ -122,8 +122,8 @@ export const performanceMonitoring = {
       pageLoad: timing.loadEventEnd - timing.navigationStart,
       domContentLoaded: timing.domContentLoadedEventEnd - timing.navigationStart,
       firstByte: timing.responseStart - timing.navigationStart,
-      timeToInteractive: navigation.domInteractive - navigation.navigationStart,
-      loadComplete: navigation.loadEventEnd - navigation.navigationStart,
+      timeToInteractive: navigation.domInteractive - navigation.startTime,
+      loadComplete: navigation.loadEventEnd - navigation.startTime,
     };
 
     return metrics;

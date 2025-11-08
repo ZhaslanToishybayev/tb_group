@@ -88,25 +88,6 @@ export const useTiltEffect = (maxTilt = 15) => {
   return ref;
 };
 
-// Hook for counting animation
-export const useCountAnimation = (from: number, to: number, duration = 2000) => {
-  const [count, setCount] = useState(from);
-  const controls = useAnimation();
-
-  useEffect(() => {
-    controls.start({
-      count,
-      transition: { duration: duration / 1000, ease: 'easeOut' },
-    });
-  }, [count, controls, duration]);
-
-  const startAnimation = () => {
-    setCount(to);
-  };
-
-  return { count, startAnimation, controls };
-};
-
 // Hook for parallax scrolling
 export const useParallax = (speed = 0.5) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -323,7 +304,6 @@ export default {
   useStaggerAnimation,
   useHoverAnimation,
   useTiltEffect,
-  useCountAnimation,
   useParallax,
   useLazyAnimation,
   useTypingAnimation,

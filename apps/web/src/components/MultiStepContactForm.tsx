@@ -15,6 +15,7 @@ type FormData = {
   company?: string;
   message?: string;
   serviceInterest?: string;
+  website?: string;
 };
 
 type MultiStepContactFormProps = {

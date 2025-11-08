@@ -182,7 +182,7 @@ export const Modal: React.FC<ModalProps> = ({
               contentVariants({ size, variant, animation, className: contentClassName }),
               'relative'
             )}
-            variants={animation || modalContent}
+            variants={(animation || modalContent) as any}
             initial="hidden"
             animate="visible"
             exit="exit"
@@ -330,7 +330,7 @@ export const useModal = (initialState = false) => {
 };
 
 // Confirmation modal component
-export interface ConfirmModalProps extends Omit<ModalProps, 'children'> {
+export interface ConfirmModalProps extends Omit<ModalProps, 'children' | 'variant'> {
   title: string;
   description?: string;
   confirmText?: string;
