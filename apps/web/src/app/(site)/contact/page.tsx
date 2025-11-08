@@ -1,4 +1,5 @@
-import type { Metadata } from 'next';
+'use client';
+
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
@@ -6,13 +7,7 @@ import { MultiStepContactForm } from '../../../components/MultiStepContactForm';
 import { ContactDetails } from '../../../components/ContactDetails';
 import { ContactMap } from '../../../components/ContactMap';
 import { SocialLinks } from '../../../components/SocialLinks';
-import { getSettings } from '../../../lib/api';
 import type { ContactInfo, SocialLink } from '../../../types/contact';
-
-export const metadata: Metadata = {
-  title: 'Контакты — TB Group',
-  description: 'Свяжитесь с TB Group для внедрения облачных решений. Мы предлагаем комплексные услуги по настройке Мой Склад, Битрикс24 и телефонии.',
-};
 
 const defaultContacts: ContactInfo[] = [
   { label: 'Телефон', value: '+7 (700) 123-45-67', href: 'tel:+77001234567' },
@@ -27,22 +22,7 @@ const defaultSocialLinks: SocialLink[] = [
   { label: 'Bitrix24', href: 'https://tbgroup.bitrix24.kz', color: '#00B0D9' },
 ];
 
-export default async function ContactPage() {
-  // Load contact settings from API
-  let settings = [];
-  try {
-    settings = await getSettings();
-  } catch (error) {
-    console.warn('Failed to load contact settings:', error);
-  }
-
-  // Extract contact info from settings or use defaults
-  const contactsSetting = settings.find((setting) => setting.key === 'CONTACT_INFO')?.value;
-  const socialLinksSetting = settings.find((setting) => setting.key === 'SOCIAL_LINKS')?.value;
-
-  const contacts = parseContactArray(contactsSetting, defaultContacts);
-  const socialLinks = parseSocialLinksArray(socialLinksSetting, defaultSocialLinks);
-
+export default function ContactPage() {
   // Page transition variants
   const pageVariants = {
     initial: { opacity: 0, y: 20 },
@@ -80,13 +60,13 @@ export default async function ContactPage() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Contact Details */}
-            <ContactDetails contacts={contacts} />
+            <ContactDetails contacts={defaultContacts} />
 
             {/* Map */}
             <ContactMap />
 
             {/* Social Links */}
-            <SocialLinks links={socialLinks} />
+            <SocialLinks links={defaultSocialLinks} />
           </div>
         </div>
 

@@ -1,11 +1,8 @@
-import type { Metadata } from 'next';
+'use client';
+
 import { motion } from 'framer-motion';
 
 import { CompanyStory, TeamGrid, type StoryParagraph, type Milestone, type TeamMember } from '../../../components/content';
-
-export const metadata: Metadata = {
-  title: 'О компании — TB Group',
-};
 
 // Временные данные до подключения API
 const storyParagraphs: StoryParagraph[] = [
