@@ -3,11 +3,21 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { Search, Menu, X } from 'lucide-react';
+import { ThemeToggle } from '../ui/ThemeToggle';
+import { NotificationBell } from '../ui/NotificationCenter';
+import { SearchBar } from '../ui/SearchBar';
+import { Button } from '../ui/Button';
+import { useUIStore } from '../../store/uiStore';
 
 export default function Header() {
   // State for mobile menu
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+
+  // UI Store
+  const { theme, setTheme } = useUIStore();
 
   // Navigation links
   const navLinks = [
@@ -121,20 +131,32 @@ export default function Header() {
             ))}
           </div>
 
-          {/* CTA Button - Desktop */}
-          <motion.div
-            className="hidden md:block"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-          >
-            <a
-              href="#contact"
-              className="px-6 py-2.5 bg-gradient-to-r from-primary-500 to-neon-cyan text-white font-medium rounded-lg hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-300"
+          {/* Right Side - Search, Theme, Notifications, CTA */}
+          <div className="hidden md:flex items-center gap-4">
+            {/* Search Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsSearchVisible(!isSearchVisible)}
+              aria-label="Search"
+            >
+              <Search className="h-5 w-5" />
+            </Button>
+
+            {/* Theme Toggle */}
+            <ThemeToggle theme={theme} onThemeChange={setTheme} />
+
+            {/* Notifications */}
+            <NotificationBell />
+
+            {/* CTA Button */}
+            <Button
+              variant="gradient"
+              onClick={() => scrollToSection('#contact')}
             >
               Get Started
-            </a>
-          </motion.div>
+            </Button>
+          </div>
 
           {/* Mobile Menu Button */}
           <motion.button
@@ -144,19 +166,33 @@ export default function Header() {
             whileTap={{ scale: 0.95 }}
             aria-label="Toggle mobile menu"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
+            {isMobileMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
           </motion.button>
         </div>
+
+        {/* Search Bar */}
+        <AnimatePresence>
+          {isSearchVisible && (
+            <motion.div
+              className="mt-4"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+            >
+              <SearchBar
+                onSearch={(query) => {
+                  console.log('Search:', query);
+                  setIsSearchVisible(false);
+                }}
+                placeholder="Поиск по сайту..."
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* Mobile Menu Slide-Out Panel */}

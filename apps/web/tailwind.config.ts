@@ -38,9 +38,7 @@ const config: Config = {
           cyan: '#00f5ff',
           'cyan-400': '#22d3ee',
           'cyan-500': '#06b6d4',
-          magenta: '#ff00ff',
           magenta: '#f97316', // Using orange instead of magenta for better contrast
-          lime: '#ccff00',
           lime: '#84cc16', // Using lime-500 instead
         },
         // Semantic colors

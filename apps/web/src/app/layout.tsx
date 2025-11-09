@@ -6,6 +6,7 @@ import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import { LiveChatWidget } from '../components/LiveChatWidget';
 import { LenisProvider } from '../contexts/LenisContext';
+import { NotificationProvider } from '../components/ui/NotificationCenter';
 
 export const metadata: Metadata = {
   title: 'TB Group — Облачные решения для бизнеса',
@@ -22,18 +23,20 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className="bg-slate-950 text-slate-100">
-        <LenisProvider>
-          <div className="min-h-screen flex flex-col">
-            <Header />
-            <main className="flex-1">
-              <AnimatePresence mode="wait">
-                {children}
-              </AnimatePresence>
-            </main>
-            <Footer />
-            <LiveChatWidget />
-          </div>
-        </LenisProvider>
+        <NotificationProvider>
+          <LenisProvider>
+            <div className="min-h-screen flex flex-col">
+              <Header />
+              <main className="flex-1">
+                <AnimatePresence mode="wait">
+                  {children}
+                </AnimatePresence>
+              </main>
+              <Footer />
+              <LiveChatWidget />
+            </div>
+          </LenisProvider>
+        </NotificationProvider>
         {RECAPTCHA_SITE_KEY && (
           <Script
             src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`}
