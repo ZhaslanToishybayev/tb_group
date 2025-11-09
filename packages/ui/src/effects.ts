@@ -41,24 +41,26 @@ const states = {
 
 // Основной компонент эффектов
 export const Effects = React.forwardRef<HTMLDivElement, EffectsProps>(
-  ({ className, shadow = 'md', shadowColor = 'neutral', hover = false, focus = false, active = false, disabled = false, transition = 'normal', ...props }, ref
-) => {
+  (
+    { className, shadow = 'md', shadowColor = 'neutral', hover = false, focus = false, active = false, disabled = false, transition = 'normal', ...props },
+    ref
+  ) => {
     const classes = cn(
       // Тени
       shadows[shadow],
-      
+
       // Цвет тени
       shadow === 'none' ? '' : `shadow-${shadowColor}`,
-      
+
       // Переходы
       transitions[transition],
-      
+
       // Состояния
       hover && states.hover,
       focus && states.focus,
       active && states.active,
       disabled && states.disabled,
-      
+
       className
     );
 
@@ -74,16 +76,18 @@ Effects.displayName = 'Effects';
 
 // Специализированные компоненты для карточек
 export const Card = React.forwardRef<HTMLDivElement, Omit<EffectsProps, 'shadow'>>(
-  ({ className, shadow = 'md', shadowColor = 'neutral', hover = true, focus = false, active = false, disabled = false, transition = 'normal', ...props }, ref
-) => (
-    <Effects 
-      ref={ref} 
-      shadow={shadow} 
-      shadowColor={shadowColor} 
-      hover={hover} 
-      focus={focus} 
-      active={active} 
-      disabled={disabled} 
+  (
+    { className, shadow = 'md', shadowColor = 'neutral', hover = true, focus = false, active = false, disabled = false, transition = 'normal', ...props },
+    ref
+  ) => (
+    <Effects
+      ref={ref}
+      shadow={shadow}
+      shadowColor={shadowColor}
+      hover={hover}
+      focus={focus}
+      active={active}
+      disabled={disabled}
       transition={transition}
       className={cn('rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800', className)}
       {...props}
@@ -95,16 +99,18 @@ Card.displayName = 'Card';
 
 // Специализированные компоненты для кнопок
 export const ButtonEffects = React.forwardRef<HTMLButtonElement, Omit<EffectsProps, 'shadow'>>(
-  ({ className, shadow = 'md', shadowColor = 'primary', hover = true, focus = true, active = false, disabled = false, transition = 'normal', ...props }, ref
-) => (
-    <Effects 
-      ref={ref} 
-      shadow={shadow} 
-      shadowColor={shadowColor} 
-      hover={hover} 
-      focus={focus} 
-      active={active} 
-      disabled={disabled} 
+  (
+    { className, shadow = 'md', shadowColor = 'primary', hover = true, focus = true, active = false, disabled = false, transition = 'normal', ...props },
+    ref
+  ) => (
+    <Effects
+      ref={ref}
+      shadow={shadow}
+      shadowColor={shadowColor}
+      hover={hover}
+      focus={focus}
+      active={active}
+      disabled={disabled}
       transition={transition}
       className={cn('rounded-md border border-transparent', className)}
       {...props}
@@ -116,16 +122,18 @@ ButtonEffects.displayName = 'ButtonEffects';
 
 // Специализированные компоненты для форм
 export const InputEffects = React.forwardRef<HTMLInputElement, Omit<EffectsProps, 'shadow'>>(
-  ({ className, shadow = 'sm', shadowColor = 'neutral', hover = true, focus = true, active = false, disabled = false, transition = 'normal', ...props }, ref
-) => (
-    <Effects 
-      ref={ref} 
-      shadow={shadow} 
-      shadowColor={shadowColor} 
-      hover={hover} 
-      focus={focus} 
-      active={active} 
-      disabled={disabled} 
+  (
+    { className, shadow = 'sm', shadowColor = 'neutral', hover = true, focus = true, active = false, disabled = false, transition = 'normal', ...props },
+    ref
+  ) => (
+    <Effects
+      ref={ref}
+      shadow={shadow}
+      shadowColor={shadowColor}
+      hover={hover}
+      focus={focus}
+      active={active}
+      disabled={disabled}
       transition={transition}
       className={cn('rounded-md border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800', className)}
       {...props}
@@ -137,16 +145,18 @@ InputEffects.displayName = 'InputEffects';
 
 // Специализированные компоненты для модальных окон
 export const ModalEffects = React.forwardRef<HTMLDivElement, Omit<EffectsProps, 'shadow'>>(
-  ({ className, shadow = 'xl', shadowColor = 'dark', hover = false, focus = false, active = false, disabled = false, transition = 'normal', ...props }, ref
-) => (
-    <Effects 
-      ref={ref} 
-      shadow={shadow} 
-      shadowColor={shadowColor} 
-      hover={hover} 
-      focus={focus} 
-      active={active} 
-      disabled={disabled} 
+  (
+    { className, shadow = 'xl', shadowColor = 'dark', hover = false, focus = false, active = false, disabled = false, transition = 'normal', ...props },
+    ref
+  ) => (
+    <Effects
+      ref={ref}
+      shadow={shadow}
+      shadowColor={shadowColor}
+      hover={hover}
+      focus={focus}
+      active={active}
+      disabled={disabled}
       transition={transition}
       className={cn('rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800', className)}
       {...props}
@@ -158,16 +168,18 @@ ModalEffects.displayName = 'ModalEffects';
 
 // Специализированные компоненты для навигации
 export const NavEffects = React.forwardRef<HTMLDivElement, Omit<EffectsProps, 'shadow'>>(
-  ({ className, shadow = 'none', shadowColor = 'neutral', hover = true, focus = false, active = false, disabled = false, transition = 'normal', ...props }, ref
-) => (
-    <Effects 
-      ref={ref} 
-      shadow={shadow} 
-      shadowColor={shadowColor} 
-      hover={hover} 
-      focus={focus} 
-      active={active} 
-      disabled={disabled} 
+  (
+    { className, shadow = 'none', shadowColor = 'neutral', hover = true, focus = false, active = false, disabled = false, transition = 'normal', ...props },
+    ref
+  ) => (
+    <Effects
+      ref={ref}
+      shadow={shadow}
+      shadowColor={shadowColor}
+      hover={hover}
+      focus={focus}
+      active={active}
+      disabled={disabled}
       transition={transition}
       className={cn('border-b border-neutral-200 dark:border-neutral-700', className)}
       {...props}
