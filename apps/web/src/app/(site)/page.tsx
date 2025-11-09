@@ -120,7 +120,11 @@ export default async function HomePage() {
     getSettings().catch(() => []),
   ]);
 
+  // Ensure all data is properly typed as arrays
+  const safeServices = Array.isArray(services) ? services : [];
+  const safeReviews = Array.isArray(reviews) ? reviews : [];
   const settingsArray = Array.isArray(settings) ? settings : [];
+
   const advantagesSetting = settingsArray.find((setting) => setting.key === 'HOMEPAGE_ADVANTAGES')?.value;
   const logosSetting = settingsArray.find((setting) => setting.key === 'HOMEPAGE_CLIENT_LOGOS')?.value;
 
@@ -132,7 +136,7 @@ export default async function HomePage() {
       <div id="main-content">
         <Hero />
 
-        <ServicesSection services={services} />
+        <ServicesSection services={safeServices} />
 
         {/* Stats Grid Section */}
         <section className="py-20 bg-slate-900/50">

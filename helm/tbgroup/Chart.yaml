@@ -1,0 +1,54 @@
+apiVersion: v2
+name: tbgroup
+description: TB Group Website - Modern Corporate Website with API
+type: application
+version: 2.0.0
+appVersion: "2.0.0"
+home: https://tbgroup.kz
+sources:
+  - https://github.com/ZhaslanToishybayev/tb_group
+maintainers:
+  - name: TB Group
+    email: admin@tbgroup.kz
+keywords:
+  - nextjs
+  - react
+  - api
+  - corporate
+  - website
+dependencies:
+  - name: common
+    version: 1.x.x
+    repository: https://charts.bitnami.com/bitnami
+    tags:
+      - bitnami-common
+  - name: postgresql
+    version: 12.x.x
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+    tags:
+      - database
+  - name: redis
+    version: 17.x.x
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
+    tags:
+      - cache
+  - name: nginx-ingress-controller
+    version: 9.x.x
+    repository: https://charts.bitnami.com/bitnami
+    condition: nginx-ingress-controller.enabled
+    tags:
+      - ingress
+  - name: prometheus
+    version: 25.x.x
+    repository: https://prometheus-community.github.io/helm-charts
+    condition: prometheus.enabled
+    tags:
+      - monitoring
+  - name: grafana
+    version: 7.x.x
+    repository: https://grafana.github.io/helm-charts
+    condition: grafana.enabled
+    tags:
+      - monitoring

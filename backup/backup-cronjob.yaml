@@ -1,0 +1,84 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: tbgroup-backup
+  namespace: tbgroup
+  labels:
+    app: tbgroup-backup
+spec:
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  successfulJobsHistoryLimit: 7
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: tbgroup-backup
+        spec:
+          restartPolicy: OnFailure
+          serviceAccountName: tbgroup-backup
+          containers:
+          - name: backup
+            image: postgres:15-alpine
+            command:
+            - /bin/sh
+            - -c
+            - |
+              apk add --no-cache aws-cli gzip
+              export PGPASSWORD=$DB_PASSWORD
+              pg_dump -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME --verbose --no-owner --clean --create --if-exists | gzip > /tmp/backup.sql.gz
+              aws s3 cp /tmp/backup.sql.gz s3://$S3_BUCKET/database/backup_$(date +%Y%m%d_%H%M%S).sql.gz
+              echo "Backup completed: $(date)"
+            env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: tbgroup-secrets
+                  key: database-host
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: tbgroup-secrets
+                  key: database-port
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: tbgroup-secrets
+                  key: database-name
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: tbgroup-secrets
+                  key: database-user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tbgroup-secrets
+                  key: database-password
+            - name: S3_BUCKET
+              value: "tbgroup-backups"
+            volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            resources:
+              requests:
+                memory: "128Mi"
+                cpu: "100m"
+              limits:
+                memory: "256Mi"
+                cpu: "200m"
+          volumes:
+          - name: tmp
+            emptyDir: {}
+          nodeSelector:
+            node-type: general
+          tolerations:
+          - key: "node.kubernetes.io/not-ready"
+            operator: "Exists"
+            effect: "NoSchedule"
+            tolerationSeconds: 60
+          - key: "node.kubernetes.io/unreachable"
+            operator: "Exists"
+            effect: "NoSchedule"
+            tolerationSeconds: 60

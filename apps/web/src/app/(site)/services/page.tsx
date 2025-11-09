@@ -8,7 +8,8 @@ export const metadata = {
 };
 
 export default async function ServicesPage() {
-  const services = await getServices().catch(() => []);
+  const servicesData = await getServices().catch(() => []);
+  const services = Array.isArray(servicesData) ? servicesData : [];
 
   return (
     <div className="bg-slate-950">

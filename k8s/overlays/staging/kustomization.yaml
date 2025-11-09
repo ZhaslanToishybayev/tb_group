@@ -1,0 +1,45 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: tbgroup-staging
+
+resources:
+- ../../base
+
+patches:
+- target:
+    kind: Deployment
+    name: tbgroup-api
+  patch: |
+    - op: replace
+      path: /spec/replicas
+      value: 2
+- target:
+    kind: Deployment
+    name: tbgroup-web
+  patch: |
+    - op: replace
+      path: /spec/replicas
+      value: 2
+
+images:
+- name: ghcr.io/zhaslantb/tb-group-api
+  newTag: "staging-{{ .BRANCH }}-{{ .SHORT_SHA }}"
+- name: ghcr.io/zhaslantb/tb-group-web
+  newTag: "staging-{{ .BRANCH }}-{{ .SHORT_SHA }}"
+- name: ghcr.io/zhaslantb/tb-group-admin
+  newTag: "staging-{{ .BRANCH }}-{{ .SHORT_SHA }}"
+
+configMapGenerator:
+- name: tbgroup-config
+  behavior: replace
+  literals:
+  - environment=staging
+  - api-domain=staging-api.tbgroup.kz
+  - web-domain=staging.tbgroup.kz
+  - admin-domain=staging-admin.tbgroup.kz
+
+secretGenerator:
+- name: tbgroup-secrets
+  behavior: replace
+  env: .env.staging
+  type: Opaque

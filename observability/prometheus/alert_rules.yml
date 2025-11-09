@@ -1,0 +1,182 @@
+groups:
+  - name: tbgroup.rules
+    rules:
+      - alert: HighErrorRate
+        expr: |
+          (
+            sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
+            /
+            sum(rate(http_requests_total[5m])) by (service)
+          ) * 100 > 5
+        for: 2m
+        labels:
+          severity: critical
+          service: tbgroup
+        annotations:
+          summary: "High error rate detected on {{ $labels.service }}"
+          description: "Error rate is {{ $value }}% on {{ $labels.service }} for more than 2 minutes."
+
+      - alert: HighLatency
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(http_request_duration_seconds_bucket[5m])) by (service, le)
+          ) > 0.5
+        for: 3m
+        labels:
+          severity: warning
+          service: tbgroup
+        annotations:
+          summary: "High latency detected on {{ $labels.service }}"
+          description: "95th percentile latency is {{ $value }}s on {{ $labels.service }} for more than 3 minutes."
+
+      - alert: HighMemoryUsage
+        expr: |
+          (
+            container_memory_usage_bytes{pod=~"tbgroup-.*"}
+            /
+            container_spec_memory_limit_bytes{pod=~"tbgroup-.*"}
+          ) * 100 > 85
+        for: 2m
+        labels:
+          severity: warning
+          service: tbgroup
+        annotations:
+          summary: "High memory usage detected"
+          description: "Memory usage is {{ $value }}% on pod {{ $labels.pod }} for more than 2 minutes."
+
+      - alert: HighCPUUsage
+        expr: |
+          (
+            sum(rate(container_cpu_usage_seconds_total{pod=~"tbgroup-.*"}[5m]))
+            by (pod)
+            /
+            sum(container_spec_cpu_quota{pod=~"tbgroup-.*"} / container_spec_cpu_period{pod=~"tbgroup-.*"})
+            by (pod)
+          ) * 100 > 80
+        for: 2m
+        labels:
+          severity: warning
+          service: tbgroup
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU usage is {{ $value }}% on pod {{ $labels.pod }} for more than 2 minutes."
+
+      - alert: PodCrashLooping
+        expr: |
+          rate(kube_pod_container_status_restarts_total{pod=~"tbgroup-.*"}[10m]) * 60 * 10 > 3
+        for: 1m
+        labels:
+          severity: critical
+          service: tbgroup
+        annotations:
+          summary: "Pod {{ $labels.pod }} is crash looping"
+          description: "Pod {{ $labels.pod }} has restarted {{ $value }} times in the last 10 minutes."
+
+      - alert: PodNotReady
+        expr: |
+          kube_pod_status_ready{pod=~"tbgroup-.*"} == 0
+        for: 5m
+        labels:
+          severity: warning
+          service: tbgroup
+        annotations:
+          summary: "Pod {{ $labels.pod }} is not ready"
+          description: "Pod {{ $labels.pod }} has been not ready for more than 5 minutes."
+
+      - alert: ServiceDown
+        expr: |
+          up{job=~"tbgroup-.*"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: tbgroup
+        annotations:
+          summary: "{{ $labels.job }} service is down"
+          description: "{{ $labels.job }} service has been down for more than 1 minute."
+
+      - alert: DatabaseConnectionFailure
+        expr: |
+          up{job="tbgroup-api"} == 1
+        for: 1m
+        labels:
+          severity: critical
+          service: tbgroup
+        annotations:
+          summary: "Database connection issue detected"
+          description: "Possible database connection issue detected for API service."
+
+      - alert: DiskSpaceLow
+        expr: |
+          (
+            node_filesystem_avail_bytes{mountpoint="/"}
+            /
+            node_filesystem_size_bytes{mountpoint="/"}
+          ) * 100 < 10
+        for: 5m
+        labels:
+          severity: critical
+          service: tbgroup
+        annotations:
+          summary: "Low disk space on node {{ $labels.instance }}"
+          description: "Disk space is {{ $value }}% on node {{ $labels.instance }} for more than 5 minutes."
+
+      - alert: KubernetesNodeDown
+        expr: |
+          up{job="kubernetes-nodes"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          service: tbgroup
+        annotations:
+          summary: "Kubernetes node {{ $labels.instance }} is down"
+          description: "Node {{ $labels.instance }} has been down for more than 5 minutes."
+
+      - alert: PersistentVolumeUsageHigh
+        expr: |
+          (
+            kubelet_volume_stats_used_bytes
+            /
+            kubelet_volume_stats_capacity_bytes
+          ) * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+          service: tbgroup
+        annotations:
+          summary: "High PV usage on {{ $labels.persistentvolumeclaim }}"
+          description: "PV usage is {{ $value }}% on {{ $labels.persistentvolumeclaim }}."
+
+  - name: database.rules
+    rules:
+      - alert: DatabaseDown
+        expr: |
+          up{job="postgres"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: database
+        annotations:
+          summary: "Database is down"
+          description: "PostgreSQL database has been down for more than 1 minute."
+
+      - alert: DatabaseConnectionsHigh
+        expr: |
+          pg_stat_activity_count > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: database
+        annotations:
+          summary: "High number of database connections"
+          description: "Database has {{ $value }} active connections for more than 5 minutes."
+
+      - alert: DatabaseSlowQueries
+        expr: |
+          rate(pg_stat_database_blk_read_time[5m]) > 100
+        for: 5m
+        labels:
+          severity: warning
+          service: database
+        annotations:
+          summary: "High number of slow database queries"
+          description: "Database slow query count is elevated."

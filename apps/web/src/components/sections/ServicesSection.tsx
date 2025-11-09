@@ -14,6 +14,9 @@ interface ServicesSectionProps {
 export function ServicesSection({ services }: ServicesSectionProps) {
   const [activeFilter, setActiveFilter] = useState('all');
 
+  // Ensure services is always an array
+  const safeServices = Array.isArray(services) ? services : [];
+
   // Define filter options
   const filters = [
     { id: 'all', label: 'Все услуги' },
@@ -36,13 +39,13 @@ export function ServicesSection({ services }: ServicesSectionProps) {
 
   // Filter services
   const filteredServices = activeFilter === 'all'
-    ? services
-    : services.filter(service => getServiceCategory(service.slug) === activeFilter);
+    ? safeServices
+    : safeServices.filter(service => getServiceCategory(service.slug) === activeFilter);
 
   // Get service count per category
   const getFilterCount = (filterId: string): number => {
-    if (filterId === 'all') return services.length;
-    return services.filter(service => getServiceCategory(service.slug) === filterId).length;
+    if (filterId === 'all') return safeServices.length;
+    return safeServices.filter(service => getServiceCategory(service.slug) === filterId).length;
   };
 
   // Animation variants

@@ -1,0 +1,210 @@
+# Global settings
+global:
+  imageRegistry: ghcr.io
+  imagePullSecrets:
+    - regcred
+  storageClass: ""
+
+# Environment configuration
+environment: production
+namespace: tbgroup
+
+# API Service Configuration
+api:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: zhaslantb/tb-group-api
+    tag: "v2.0.0"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 4000
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+      cpu: 500m
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+    targetMemoryUtilizationPercentage: 80
+  healthCheck:
+    path: /health
+    port: 4000
+  env:
+    NODE_ENV: production
+    PORT: 4000
+
+# Web Frontend Configuration
+web:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: zhaslantb/tb-group-web
+    tag: "v2.0.0"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 3000
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 100m
+    limits:
+      memory: 256Mi
+      cpu: 300m
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+    targetMemoryUtilizationPercentage: 80
+  healthCheck:
+    path: /
+    port: 3000
+  env:
+    NODE_ENV: production
+    PORT: 3000
+    NEXT_PUBLIC_API_URL: "https://api.tbgroup.kz"
+
+# Admin Panel Configuration
+admin:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: zhaslantb/tb-group-admin
+    tag: "v2.0.0"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 3000
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 100m
+    limits:
+      memory: 256Mi
+      cpu: 300m
+  healthCheck:
+    path: /
+    port: 3000
+  env:
+    NODE_ENV: production
+    VITE_API_URL: "https://api.tbgroup.kz"
+
+# Ingress Configuration
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+  hosts:
+    - host: tbgroup.kz
+      paths:
+        - path: /
+          pathType: Prefix
+          service: web
+    - host: api.tbgroup.kz
+      paths:
+        - path: /
+          pathType: Prefix
+          service: api
+    - host: admin.tbgroup.kz
+      paths:
+        - path: /
+          pathType: Prefix
+          service: admin
+  tls:
+    - secretName: tbgroup-tls
+      hosts:
+        - tbgroup.kz
+        - api.tbgroup.kz
+        - admin.tbgroup.kz
+
+# Database Configuration (PostgreSQL)
+postgresql:
+  enabled: false
+  auth:
+    postgresPassword: "your-secure-password"
+    database: "tbgroup"
+  primary:
+    persistence:
+      enabled: true
+      size: 20Gi
+
+# Redis Configuration
+redis:
+  enabled: false
+  auth:
+    enabled: true
+    password: "your-redis-password"
+
+# Monitoring Configuration
+prometheus:
+  enabled: false
+  server:
+    persistentVolume:
+      enabled: true
+      size: 8Gi
+
+grafana:
+  enabled: false
+  adminPassword: "admin"
+  persistence:
+    enabled: true
+    size: 2Gi
+
+# Nginx Ingress Controller
+nginx-ingress-controller:
+  enabled: false
+  service:
+    type: LoadBalancer
+
+# Configuration
+config:
+  apiDomain: "api.tbgroup.kz"
+  webDomain: "tbgroup.kz"
+  adminDomain: "admin.tbgroup.kz"
+  smtpHost: "smtp.gmail.com"
+  smtpPort: "587"
+  smtpFrom: "noreply@tbgroup.kz"
+  emailNotificationsTo: "admin@tbgroup.kz"
+  ga4MeasurementId: "G-XXXXXXXXXX"
+  yandexMetricaCounterId: "XXXXXXXXX"
+  recaptchaSiteKey: "6LcXXXXXXXXXXXXXXX"
+  prometheusUrl: "http://prometheus.monitoring.svc.cluster.local:9090"
+  grafanaUrl: "http://grafana.monitoring.svc.cluster.local:3000"
+
+# Secrets (to be managed externally)
+secrets:
+  databaseUrl: ""
+  redisUrl: ""
+  jwtAccessSecret: ""
+  jwtRefreshSecret: ""
+  smtpUser: ""
+  smtpPass: ""
+  bitrix24WebhookUrl: ""
+  recaptchaSecret: ""
+
+# Security
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+
+# Network Policy
+networkPolicy:
+  enabled: false
+
+# Pod Disruption Budget
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1

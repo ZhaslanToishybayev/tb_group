@@ -10,23 +10,23 @@
     "taskmaster"
   ],
   "scripts": {
-    "dev": "pnpm dev --workspaces",
-    "build": "pnpm build --workspaces",
-    "test": "pnpm test --workspaces",
-    "lint": "pnpm lint --workspaces",
-    "type-check": "pnpm type-check --workspaces",
-    "clean": "pnpm clean --workspaces",
+    "dev": "npm run dev --workspaces",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "type-check": "npm run type-check --workspaces",
+    "clean": "npm run clean --workspaces",
     "package": "bash scripts/package-project.sh",
     "setup": "bash scripts/setup-project.sh",
-    "start:api": "pnpm dev --workspace @tb/api",
-    "start:web": "pnpm dev --workspace @tb/web",
-    "start:admin": "pnpm dev --workspace @tb/admin",
+    "start:api": "npm run dev --workspace @tb/api",
+    "start:web": "npm run dev --workspace @tb/web",
+    "start:admin": "npm run dev --workspace @tb/admin",
     "docker:up": "docker-compose -f docker-compose.db.yml up -d",
     "docker:down": "docker-compose -f docker-compose.db.yml down",
-    "coverage": "pnpm test --workspace @tb/status-service -- --coverage",
+    "coverage": "npm run test --workspace @tb/status-service -- --coverage",
     "coverage:check": "node scripts/check-coverage.js",
-    "coverage:report": "pnpm test --workspace @tb/status-service -- --coverage --reporter=html",
-    "test:ci": "pnpm test --workspaces --run --coverage && pnpm coverage:check",
+    "coverage:report": "npm run test --workspace @tb/status-service -- --coverage --reporter=html",
+    "test:ci": "npm run test --workspaces --run --coverage && npm run coverage:check",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -53,7 +53,6 @@
   },
   "engines": {
     "node": ">=18.0.0",
-    "pnpm": ">=8.0.0"
-  },
-  "packageManager": "pnpm@8.0.0"
+    "npm": ">=8.0.0"
+  }
 }

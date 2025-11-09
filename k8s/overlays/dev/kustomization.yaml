@@ -1,0 +1,65 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: tbgroup-dev
+
+resources:
+- ../../base
+
+patches:
+- target:
+    kind: Deployment
+    name: tbgroup-api
+  patch: |
+    - op: replace
+      path: /spec/replicas
+      value: 1
+- target:
+    kind: Deployment
+    name: tbgroup-web
+  patch: |
+    - op: replace
+      path: /spec/replicas
+      value: 1
+- target:
+    kind: HorizontalPodAutoscaler
+    name: tbgroup-api-hpa
+  patch: |
+    - op: replace
+      path: /spec/minReplicas
+      value: 1
+    - op: replace
+      path: /spec/maxReplicas
+      value: 3
+- target:
+    kind: HorizontalPodAutoscaler
+    name: tbgroup-web-hpa
+  patch: |
+    - op: replace
+      path: /spec/minReplicas
+      value: 1
+    - op: replace
+      path: /spec/maxReplicas
+      value: 3
+
+images:
+- name: ghcr.io/zhaslantb/tb-group-api
+  newTag: "dev-{{ .BRANCH }}-{{ .SHORT_SHA }}"
+- name: ghcr.io/zhaslantb/tb-group-web
+  newTag: "dev-{{ .BRANCH }}-{{ .SHORT_SHA }}"
+- name: ghcr.io/zhaslantb/tb-group-admin
+  newTag: "dev-{{ .BRANCH }}-{{ .SHORT_SHA }}"
+
+configMapGenerator:
+- name: tbgroup-config
+  behavior: replace
+  literals:
+  - environment=development
+  - api-domain=dev-api.tbgroup.kz
+  - web-domain=dev.tbgroup.kz
+  - admin-domain=dev-admin.tbgroup.kz
+
+secretGenerator:
+- name: tbgroup-secrets
+  behavior: replace
+  env: .env.dev
+  type: Opaque

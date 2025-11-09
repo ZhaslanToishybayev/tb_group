@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tbgroup-web
+  labels:
+    app: tbgroup-web
+    component: web
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: tbgroup-web
+  template:
+    metadata:
+      labels:
+        app: tbgroup-web
+        component: web
+    spec:
+      containers:
+      - name: web
+        image: ghcr.io/zhaslantb/tb-group-web:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          name: http
+          protocol: TCP
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "3000"
+        - name: NEXT_PUBLIC_API_URL
+          value: "https://api.tbgroup.kz"
+        - name: NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: tbgroup-config
+              key: recaptcha-site-key
+        - name: NEXT_PUBLIC_GA4_MEASUREMENT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: tbgroup-config
+              key: ga4-measurement-id
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "300m"
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tbgroup-web-service
+  labels:
+    app: tbgroup-web
+    component: web
+spec:
+  type: ClusterIP
+  selector:
+    app: tbgroup-web
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 3000
+    protocol: TCP

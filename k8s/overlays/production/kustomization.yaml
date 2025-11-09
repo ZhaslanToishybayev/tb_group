@@ -1,0 +1,76 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: tbgroup
+
+resources:
+- ../../base
+
+patches:
+- target:
+    kind: Deployment
+    name: tbgroup-api
+  patch: |
+    - op: replace
+      path: /spec/replicas
+      value: 3
+- target:
+    kind: Deployment
+    name: tbgroup-web
+  patch: |
+    - op: replace
+      path: /spec/replicas
+      value: 3
+- target:
+    kind: HorizontalPodAutoscaler
+    name: tbgroup-api-hpa
+  patch: |
+    - op: replace
+      path: /spec/minReplicas
+      value: 3
+    - op: replace
+      path: /spec/maxReplicas
+      value: 15
+- target:
+    kind: HorizontalPodAutoscaler
+    name: tbgroup-web-hpa
+  patch: |
+    - op: replace
+      path: /spec/minReplicas
+      value: 3
+    - op: replace
+      path: /spec/maxReplicas
+      value: 15
+
+images:
+- name: ghcr.io/zhaslantb/tb-group-api
+  newTag: "v2.0.0"
+- name: ghcr.io/zhaslantb/tb-group-web
+  newTag: "v2.0.0"
+- name: ghcr.io/zhaslantb/tb-group-admin
+  newTag: "v2.0.0"
+
+configMapGenerator:
+- name: tbgroup-config
+  behavior: replace
+  files:
+  - api-domain=api.tbgroup.kz
+  - web-domain=tbgroup.kz
+  - admin-domain=admin.tbgroup.kz
+  - ga4-measurement-id=G-XXXXXXXXXX
+  - yandex-metrica-counter-id=XXXXXXXXX
+  - smtp-host=smtp.gmail.com
+  - smtp-port=587
+  - smtp-from=noreply@tbgroup.kz
+  - email-notifications-to=admin@tbgroup.kz
+  - recaptcha-site-key=6LcXXXXXXXXXXXXXXX
+  - prometheus-url=http://prometheus.monitoring.svc.cluster.local:9090
+  - grafana-url=http://grafana.monitoring.svc.cluster.local:3000
+
+secretGenerator:
+- name: tbgroup-secrets
+  behavior: replace
+  env: .env.production
+  type: Opaque
+
+generatorOptions:
+  disableNameSuffixHash: true
