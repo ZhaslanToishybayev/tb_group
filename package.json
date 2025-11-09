@@ -1,55 +1,14 @@
 {
-  "name": "tb-group-base-stack",
+  "name": "tb-group-website",
   "version": "1.0.0",
-  "description": "TB Group corporate website with unified toolchain",
+  "description": "TB Group corporate website",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "spec-kit",
-    "taskmaster"
-  ],
   "scripts": {
-    "dev": "npm run dev --workspaces",
-    "build": "npm run build --workspaces",
-    "test": "npm run test --workspaces",
-    "lint": "npm run lint --workspaces",
-    "type-check": "npm run type-check --workspaces",
-    "clean": "npm run clean --workspaces",
-    "package": "bash scripts/package-project.sh",
-    "setup": "bash scripts/setup-project.sh",
-    "start:api": "npm run dev --workspace @tb/api",
-    "start:web": "npm run dev --workspace @tb/web",
-    "start:admin": "npm run dev --workspace @tb/admin",
-    "docker:up": "docker-compose -f docker-compose.db.yml up -d",
-    "docker:down": "docker-compose -f docker-compose.db.yml down",
-    "coverage": "npm run test --workspace @tb/status-service -- --coverage",
-    "coverage:check": "node scripts/check-coverage.js",
-    "coverage:report": "npm run test --workspace @tb/status-service -- --coverage --reporter=html",
-    "test:ci": "npm run test --workspaces --run --coverage && npm run coverage:check",
-    "prepare": "husky"
-  },
-  "devDependencies": {
-    "@types/node": "^22.10.1",
-    "typescript": "^5.6.3",
-    "eslint": "^9.16.0",
-    "prettier": "^3.5.3",
-    "turbo": "^2.5.6",
-    "typescript-eslint": "^8.14.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^15.3.0"
-  },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md,yml,yaml}": [
-      "prettier --write"
-    ],
-    "*.{ts,tsx}": [
-      "tsc --noEmit"
-    ]
+    "dev": "cd apps/web && npm run dev",
+    "build": "cd apps/web && npm run build",
+    "start": "cd apps/web && npm start",
+    "lint": "cd apps/web && npm run lint",
+    "type-check": "cd apps/web && npm run type-check"
   },
   "engines": {
     "node": ">=18.0.0",
